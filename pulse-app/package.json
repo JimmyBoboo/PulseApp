@@ -22,17 +22,25 @@
     "types": "tsc"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.44.6",
+    "pg": "^8.16.3",
     "react": "19.3.0-canary-4fdf7cf2-20251003",
     "react-dom": "19.3.0-canary-4fdf7cf2-20251003",
     "react-server-dom-webpack": "19.3.0-canary-4fdf7cf2-20251003",
-    "rwsdk": "1.0.0-beta.14"
+    "rwsdk": "1.0.0-beta.14",
+    "tailwindcss": "^4.1.14"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.13.10",
     "@cloudflare/workers-types": "4.20251004.0",
     "@types/node": "~24.5.2",
+    "@types/pg": "^8.15.5",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
+    "drizzle-kit": "^0.31.5",
+    "tsx": "^4.20.6",
     "typescript": "5.8.3",
     "vite": "7.1.9",
     "wrangler": "4.42.0"
