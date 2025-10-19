@@ -1,6 +1,5 @@
 import Navigationbar from "@/layouts/Navigationbar";
-import "@/index.css";
-
+import styles from "./styles.css?url";
 export const Document: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
@@ -10,13 +9,12 @@ export const Document: React.FC<{ children: React.ReactNode }> = ({
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>Pulse - Fitness Tracker</title>
       <link rel="modulepreload" href="/src/client.tsx" />
+      <link rel="stylesheet" href={styles} />
     </head>
-    <body className="m-0 p-0">
-      <nav>
-        <Navigationbar />
-      </nav>
+
+    <body>
+      <Navigationbar />
       <div id="root">{children}</div>
-      <script>import("/src/client.tsx")</script>
     </body>
   </html>
 );
