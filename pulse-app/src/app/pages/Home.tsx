@@ -16,7 +16,6 @@ export const Home = () => {
             href="/stats"
             className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
           >
-            <div className="text-4xl mb-3">📊</div>
             <h3 className="text-xl font-semibold mb-2">Track Stats</h3>
             <p className="text-gray-600">
               View your workout history and progress
@@ -27,7 +26,6 @@ export const Home = () => {
             href="/plan"
             className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
           >
-            <div className="text-4xl mb-3">📝</div>
             <h3 className="text-xl font-semibold mb-2">Plan Workouts</h3>
             <p className="text-gray-600">Schedule and organize your training</p>
           </a>
@@ -36,7 +34,6 @@ export const Home = () => {
             href="/profile"
             className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
           >
-            <div className="text-4xl mb-3">👤</div>
             <h3 className="text-xl font-semibold mb-2">Your Profile</h3>
             <p className="text-gray-600">Manage your account and goals</p>
           </a>

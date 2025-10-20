@@ -3,14 +3,19 @@ import { route } from "rwsdk/router";
 // Dummy data
 let exercises = [
   {
-    id: 1,
+    id: "1",
     name: "Benkpress",
     category: "Bryst",
     description: "Press vekt fra brystet",
   },
-  { id: 2, name: "Squats", category: "Ben", description: "Knebøy med vekt" },
   {
-    id: 3,
+    id: "2",
+    name: "Squats",
+    category: "Ben",
+    description: "Knebøy med vekt",
+  },
+  {
+    id: "3",
     name: "Løping",
     category: "Kondisjon",
     description: "Løp utendørs eller på tredemølle",
@@ -18,47 +23,96 @@ let exercises = [
 ];
 
 // GET /api/exercises - Hent alle exercises
-export const GET = route("/", async (req) => {
-  return Response.json(exercises);
-});
-
-// GET /api/exercises/:id - Hent én exercise
-export const GETById = route("/:id", async (req, { id }) => {
-  const exercise = exercises.find((e) => e.id === parseInt(id));
-  if (!exercise) {
-    return Response.json({ error: "Exercise ikke funnet" }, { status: 404 });
+export const getAllExercises = route("/api/exercises", async ({ request }) => {
+  if (request.method === "GET") {
+    return new Response(JSON.stringify(exercises), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   }
-  return Response.json(exercise);
-});
 
-// POST /api/exercises - Opprett ny exercise
-export const POST = route("/", async (req) => {
-  const body = await req.json();
-  const newExercise = {
-    id: exercises.length > 0 ? Math.max(...exercises.map((e) => e.id)) + 1 : 1,
-    ...body,
-  };
-  exercises.push(newExercise);
-  return Response.json(newExercise, { status: 201 });
-});
-
-// PUT /api/exercises/:id - Oppdater exercise
-export const PUT = route("/:id", async (req, { id }) => {
-  const index = exercises.findIndex((e) => e.id === parseInt(id));
-  if (index === -1) {
-    return Response.json({ error: "Exercise ikke funnet" }, { status: 404 });
+  // POST - Opprett ny exercise
+  if (request.method === "POST") {
+    try {
+      const body = (await request.json()) as any;
+      const newExercise = {
+        id: String(exercises.length + 1),
+        ...body,
+      };
+      exercises.push(newExercise);
+      return new Response(JSON.stringify(newExercise), {
+        status: 201,
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (error) {
+      return new Response(JSON.stringify({ error: "Invalid data" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   }
-  const body = await req.json();
-  exercises[index] = { ...exercises[index], ...body };
-  return Response.json(exercises[index]);
+
+  return new Response("Method not allowed", { status: 405 });
 });
 
-// DELETE /api/exercises/:id - Slett exercise
-export const DELETE = route("/:id", async (req, { id }) => {
-  const index = exercises.findIndex((e) => e.id === parseInt(id));
-  if (index === -1) {
-    return Response.json({ error: "Exercise ikke funnet" }, { status: 404 });
+// GET - Hent én exercise
+export const getExerciseById = route(
+  "/api/exercises/:id",
+  async ({ request, params }) => {
+    if (request.method === "GET") {
+      const exercise = exercises.find((e) => e.id === params.id);
+      if (!exercise) {
+        return new Response(JSON.stringify({ error: "Exercise not found" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      return new Response(JSON.stringify(exercise), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // PUT - Oppdater exercise
+    if (request.method === "PUT") {
+      const index = exercises.findIndex((e) => e.id === params.id);
+      if (index === -1) {
+        return new Response(JSON.stringify({ error: "Exercise not found" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      try {
+        const body = (await request.json()) as any;
+        exercises[index] = { ...exercises[index], ...body };
+        return new Response(JSON.stringify(exercises[index]), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({ error: "Invalid data" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    // DELETE - Slett exercise
+    if (request.method === "DELETE") {
+      const index = exercises.findIndex((e) => e.id === params.id);
+      if (index === -1) {
+        return new Response(JSON.stringify({ error: "Exercise not found" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      exercises.splice(index, 1);
+      return new Response(JSON.stringify({ message: "Exercise deleted" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response("Method not allowed", { status: 405 });
   }
-  exercises.splice(index, 1);
-  return Response.json({ message: "Exercise slettet" });
-});
+);

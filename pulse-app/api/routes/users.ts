@@ -1,15 +1,18 @@
+/**
+ * Users API Routes med Dummy Data
+ */
 import { route } from "rwsdk/router";
 
-// Dummy data
+// Dummy data (in-memory)
 let users = [
   {
-    id: 1,
+    id: "1",
     name: "Jimmy Hansen",
     email: "jimmy@example.com",
     createdAt: "2025-01-15",
   },
   {
-    id: 2,
+    id: "2",
     name: "Anna Larsen",
     email: "anna@example.com",
     createdAt: "2025-02-20",
@@ -17,48 +20,98 @@ let users = [
 ];
 
 // GET /api/users - Hent alle users
-export const GET = route("/", async (req) => {
-  return Response.json(users);
-});
-
-// GET /api/users/:id - Hent én user
-export const GETById = route("/:id", async (req, { id }) => {
-  const user = users.find((u) => u.id === parseInt(id));
-  if (!user) {
-    return Response.json({ error: "User ikke funnet" }, { status: 404 });
+export const getAllUsers = route("/api/users", async ({ request }) => {
+  // GET - Hent alle users
+  if (request.method === "GET") {
+    return new Response(JSON.stringify(users), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   }
-  return Response.json(user);
-});
 
-// POST /api/users - Opprett ny user
-export const POST = route("/", async (req) => {
-  const body = await req.json();
-  const newUser = {
-    id: users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1,
-    ...body,
-    createdAt: new Date().toISOString().split("T")[0],
-  };
-  users.push(newUser);
-  return Response.json(newUser, { status: 201 });
-});
-
-// PUT /api/users/:id - Oppdater user
-export const PUT = route("/:id", async (req, { id }) => {
-  const index = users.findIndex((u) => u.id === parseInt(id));
-  if (index === -1) {
-    return Response.json({ error: "User ikke funnet" }, { status: 404 });
+  // POST - Oppretter ny user
+  if (request.method === "POST") {
+    try {
+      const body = (await request.json()) as any;
+      const newUser = {
+        id: String(users.length + 1),
+        ...body,
+        createdAt: new Date().toISOString().split("T")[0],
+      };
+      users.push(newUser);
+      return new Response(JSON.stringify(newUser), {
+        status: 201,
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (error) {
+      return new Response(JSON.stringify({ error: "Invalid data" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   }
-  const body = await req.json();
-  users[index] = { ...users[index], ...body };
-  return Response.json(users[index]);
+
+  return new Response("Method not allowed", { status: 405 });
 });
 
-// DELETE /api/users/:id - Slett user
-export const DELETE = route("/:id", async (req, { id }) => {
-  const index = users.findIndex((u) => u.id === parseInt(id));
-  if (index === -1) {
-    return Response.json({ error: "User ikke funnet" }, { status: 404 });
+// GET - Hent én user by Id
+export const getUserById = route(
+  "/api/users/:id",
+  async ({ request, params }) => {
+    if (request.method === "GET") {
+      const user = users.find((u) => u.id === params.id);
+      if (!user) {
+        return new Response(JSON.stringify({ error: "User not found" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      return new Response(JSON.stringify(user), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // PUT - Oppdater user
+    if (request.method === "PUT") {
+      const index = users.findIndex((u) => u.id === params.id);
+      if (index === -1) {
+        return new Response(JSON.stringify({ error: "User not found" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      try {
+        const body = (await request.json()) as any;
+        users[index] = { ...users[index], ...body };
+        return new Response(JSON.stringify(users[index]), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({ error: "Invalid data" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    // DELETE - Slett user
+    if (request.method === "DELETE") {
+      const index = users.findIndex((u) => u.id === params.id);
+      if (index === -1) {
+        return new Response(JSON.stringify({ error: "User not found" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      users.splice(index, 1);
+      return new Response(JSON.stringify({ message: "User deleted" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response("Method not allowed", { status: 405 });
   }
-  users.splice(index, 1);
-  return Response.json({ message: "User slettet" });
-});
+);
