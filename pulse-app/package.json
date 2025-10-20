@@ -9,6 +9,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "seed:build": "tsc -p ./tsconfig.seed.json",
+    "seed": "tsx ./scripts/seed.ts",
     "build": "vite build",
     "dev": "vite dev --host 0.0.0.0",
     "dev:init": "rw-scripts dev-init",
