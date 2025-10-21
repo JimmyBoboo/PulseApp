@@ -8,7 +8,7 @@ npm-debug.log*
 pnpm-debug.log*
 
 # Environment variables
-.env
+# .env
 .dev.vars
 
 # Vite build output
