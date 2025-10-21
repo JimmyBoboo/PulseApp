@@ -4,6 +4,18 @@ import { defineApp } from "rwsdk/worker";
 import { Document } from "@/app/Document";
 import { setCommonHeaders } from "@/app/headers";
 import { Home } from "@/app/pages/Home";
+import { About } from "@/app/pages/About";
+import { Stats } from "@/app/pages/Stats";
+import { Plan } from "@/app/pages/Plan";
+import { Profile } from "@/app/pages/Profile";
+import { Login } from "@/app/pages/Login";
+
+// Import API Routes
+import { getAllGoals, getGoalById } from "../api/routes/goals";
+import { getAllUsers, getUserById } from "../api/routes/users";
+import { getAllWorkouts, getWorkoutById } from "../api/routes/workout";
+import { getAllExercises, getExerciseById } from "../api/routes/exercises";
+import { getAllBadges, getBadgeById } from "../api/routes/badges";
 
 export type AppContext = {};
 
@@ -13,5 +25,34 @@ export default defineApp([
     // setup ctx here
     ctx;
   },
-  render(Document, [route("/", Home)]),
+
+  // API Routes
+  getAllGoals,
+  getGoalById,
+
+  // Users API
+  getAllUsers,
+  getUserById,
+
+  // Workouts API
+  getAllWorkouts,
+  getWorkoutById,
+
+  // Exercises API
+  getAllExercises,
+  getExerciseById,
+
+  // Badges API
+  getAllBadges,
+  getBadgeById,
+
+  // Page Routes
+  render(Document, [
+    route("/", Home),
+    route("/about", About),
+    route("/stats", Stats),
+    route("/plan", Plan),
+    route("/profile", Profile),
+    route("/login", Login),
+  ]),
 ]);
