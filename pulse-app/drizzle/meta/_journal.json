@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1760654094576,
-      "tag": "0000_kind_jane_foster",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1760719248953,
-      "tag": "0001_tan_human_fly",
+      "when": 1760995945552,
+      "tag": "0000_smart_stardust",
       "breakpoints": true
     }
   ]
