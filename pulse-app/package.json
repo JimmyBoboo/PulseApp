@@ -21,8 +21,7 @@
     "release": "rw-scripts ensure-deploy-env && npm run clean && npm run build && RWSDK_DEPLOY=1 wrangler deploy",
     "generate": "rw-scripts ensure-env && wrangler types",
     "check": "npm run generate && npm run types",
-    "types": "tsc",
-    "seed": "tsx src/db/seed.ts"
+    "types": "tsc"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
