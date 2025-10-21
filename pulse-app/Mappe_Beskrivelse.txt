@@ -1,0 +1,138 @@
+PulseApp — Beskrivelse av mapper og hva som bør ligge i hver
+
+root/
+- package.json
+  - Prosjektmetadata, scripts og avhengigheter.
+- tsconfig.json
+  - TypeScript-kompilatorinnstillinger.
+- README.md
+  - Kort beskrivelse av prosjekt, oppsett og kjøreinstruksjoner.
+- .gitignore / .vscode/
+  - Ignoreringsregler og editor-spesifikke innstillinger.
+
+src/
+- worker.tsx
+  - App-innsteg / worker-definisjon og routing (server/edge entry).
+- index.tsx eller main.tsx (hvis aktuelt)
+  - Klient-side entry (om nødvendig).
+
+src/app/
+- Document.tsx
+  - Appens HTML-/layout-wrapper (head, meta, global layout).
+- headers.ts
+  - Felles HTTP-headers, CORS, security headers osv.
+- pages/
+  - Side-komponenter (f.eks. Home.tsx, About.tsx, Stats.tsx, Plan.tsx, Profile.tsx, Login.tsx).
+  - Hver fil er en side/route-komponent.
+
+src/components/
+- Gjenbrukbare UI-komponenter (Buttons, FormFields, Nav, Layout, Modals).
+- Del opp i folders etter domene ved behov (ui/, layout/, forms/).
+
+src/api/
+- routes/
+  - API-route-filer som eksporterer handler/route-objekter (f.eks. goals.ts, users.ts, workout.ts, exercises.ts, badges.ts).
+  - Hver fil inneholder GET/POST/PUT/DELETE eller funksjoner som eksporteres til worker.tsx.
+- services/ eller lib/
+  - Forretningslogikk, DB-adaptere, klienter mot eksterne tjenester.
+
+src/types/
+- Types og interfaces som brukes i hele appen (f.eks. User, Goal, Workout, Exercise, Badge).
+
+src/utils/ eller src/helpers/
+- Små hjelpefunksjoner, formaterere, validering, date-helpers.
+
+src/styles/ eller src/css/
+- Globale stilfiler, tema, variabler (CSS/SCSS/Tailwind config).
+
+public/
+- Statisk innhold
+
+scripts/
+- Lokale scripts for bygg, migrasjoner eller dev-verktøy.
+
+tests/ eller __tests__/
+- Enhetstester og integrasjonstester (jest, vitest, testing-library).
+- Test-data og test-helpers.
+
+migrations/ eller db/
+- Database-migrasjoner og skjemafiler (hvis relevant).
+
+docs/
+- Utfyllende dokumentasjon, API-spesifikasjoner, arkitekturdiagrammer.
+
+Konvensjoner / tips
+- Hold api/routes små og fokuserte — mover forretningslogikk til services/.
+- Del komponenter i atoms/molecules/organisms om du vil følge en design-system-tilnærming.
+- Legg types i én fil per domene for enklere import (types/user.ts, types/goal.ts osv.).
+- Oppdater README med mappestruktur og ansvar for nye utviklere.
+
+```// filepath: c:\Users\Jimmy\Documents\Github\PulseApp\pulse-app\FOLDER_DESCRIPTIONS.txt
+PulseApp — Beskrivelse av mapper og hva som bør ligge i hver
+
+root/
+- package.json
+  - Prosjektmetadata, scripts og avhengigheter.
+- tsconfig.json
+  - TypeScript-kompilatorinnstillinger.
+- README.md
+  - Kort beskrivelse av prosjekt, oppsett og kjøreinstruksjoner.
+- .gitignore / .vscode/
+  - Ignoreringsregler og editor-spesifikke innstillinger.
+
+src/
+- worker.tsx
+  - App-innsteg / worker-definisjon og routing (server/edge entry).
+- index.tsx eller main.tsx (hvis aktuelt)
+  - Klient-side entry (om nødvendig).
+
+src/app/
+- Document.tsx
+  - Appens HTML-/layout-wrapper (head, meta, global layout).
+- headers.ts
+  - Felles HTTP-headers, CORS, security headers osv.
+- pages/
+  - Side-komponenter (f.eks. Home.tsx, About.tsx, Stats.tsx, Plan.tsx, Profile.tsx, Login.tsx).
+  - Hver fil er en side/route-komponent.
+
+src/components/
+- Gjenbrukbare UI-komponenter (Buttons, FormFields, Nav, Layout, Modals).
+- Del opp i folders etter domene ved behov (ui/, layout/, forms/).
+
+src/api/
+- routes/
+  - API-route-filer som eksporterer handler/route-objekter (f.eks. goals.ts, users.ts, workout.ts, exercises.ts, badges.ts).
+  - Hver fil inneholder GET/POST/PUT/DELETE eller funksjoner som eksporteres til worker.tsx.
+- services/ eller lib/
+  - Forretningslogikk, DB-adaptere, klienter mot eksterne tjenester.
+
+src/types/
+- Types og interfaces som brukes i hele appen (f.eks. User, Goal, Workout, Exercise, Badge).
+
+src/utils/ eller src/helpers/
+- Små hjelpefunksjoner, formaterere, validering, date-helpers.
+
+src/styles/ eller src/css/
+- Globale stilfiler, tema, variabler (CSS/SCSS/Tailwind config).
+
+public/
+- Statisk innhold (favicon, manifest, statiske bilder som ikke bygges inn).
+
+scripts/
+- Lokale scripts for bygg, migrasjoner eller dev-verktøy.
+
+tests/ eller __tests__/
+- Enhetstester og integrasjonstester (jest, vitest, testing-library).
+- Test-data og test-helpers.
+
+migrations/ eller db/
+- Database-migrasjoner og skjemafiler (hvis relevant).
+
+docs/
+- Utfyllende dokumentasjon, API-spesifikasjoner, arkitekturdiagrammer.
+
+Konvensjoner / tips
+- Hold api/routes små og fokuserte — mover forretningslogikk til services/.
+- Del komponenter i atoms/molecules/organisms om du vil følge en design-system-tilnærming.
+- Legg types i én fil per domene for enklere import (types/user.ts, types/goal.ts osv.).
+- Oppdater README med mappestruktur og ansvar for nye utviklere.
