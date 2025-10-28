@@ -26,6 +26,17 @@ const db = drizzle(pool);
 async function seed() {
   console.log("🌱 Starting seed...");
 
+  // 🗑️ SLETT GAMMEL DATA FØRST
+  console.log("🗑️  Clearing existing data...");
+  await db.delete(badges);
+  await db.delete(workoutExercises);
+  await db.delete(goalsTable);
+  await db.delete(workoutsTable);
+  await db.delete(exercisesTable);
+  await db.delete(usersTable);
+  console.log("✅ Old data cleared");
+
+  // Opprett ny bruker
   const [user] = await db
     .insert(usersTable)
     .values({
@@ -38,11 +49,13 @@ async function seed() {
 
   console.log("✅ Created user:", user.id);
 
+  // Opprett exercises
   const [pushUps, pullUps, squats] = await db
     .insert(exercisesTable)
     .values([{ name: "Push Ups" }, { name: "Pull Ups" }, { name: "Squats" }])
     .returning({ id: exercisesTable.id });
 
+  // Opprett workout
   const [workout] = await db
     .insert(workoutsTable)
     .values({
@@ -52,6 +65,7 @@ async function seed() {
     })
     .returning({ id: workoutsTable.id });
 
+  // Koble exercises til workout
   await db.insert(workoutExercises).values([
     {
       workoutId: workout.id.toString(),
@@ -76,6 +90,7 @@ async function seed() {
     },
   ]);
 
+  // Opprett goal
   await db.insert(goalsTable).values({
     userId: user.id,
     goalType: "Fat Loss",
@@ -84,6 +99,7 @@ async function seed() {
     deadline: "2025-11-30",
   });
 
+  // Opprett badge
   await db.insert(badges).values({
     userId: user.id,
     name: "First Workout Completed",
