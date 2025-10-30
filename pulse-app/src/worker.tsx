@@ -16,6 +16,8 @@ import { getAllUsers, getUserById } from "../api/routes/users";
 import { getAllWorkouts, getWorkoutById } from "../api/routes/workout";
 import { getAllExercises, getExerciseById } from "../api/routes/exercises";
 import { getAllBadges, getBadgeById } from "../api/routes/badges";
+import { seedData } from "../scripts/seed";
+import { env } from "cloudflare:workers";
 
 export type AppContext = {};
 
@@ -25,6 +27,11 @@ export default defineApp([
     // setup ctx here
     ctx;
   },
+
+  route("/api/seed", async () => {
+    await seedData({ env });
+    return new Response("Database seeded!");
+  }),
 
   // API Routes
   getAllGoals,
