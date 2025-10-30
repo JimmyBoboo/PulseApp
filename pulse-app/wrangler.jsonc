@@ -25,5 +25,13 @@
   // Environment variables
   "vars": {
     // Add your environment variables here
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "pulse",
+      "database_id": "__change_me__",
+      "migrations_dir": "drizzle"
+    }
+  ]
 }

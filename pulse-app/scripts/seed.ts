@@ -1,6 +1,3 @@
-import { randomUUID } from "node:crypto";
-import { Pool } from "pg";
-import { drizzle } from "drizzle-orm/node-postgres";
 import {
   usersTable,
   exercisesTable,
@@ -10,21 +7,18 @@ import {
   badges,
 } from "../src/db/schema";
 
+import { defineScript } from "rwsdk/worker";
+import { drizzle } from "drizzle-orm/d1";
+import { env as WorkerEnv } from "cloudflare:workers";
+
 // Use DATABASE_URL from environment
-const connectionString =
-  process.env.DATABASE_URL ||
-  "postgresql://postgres:Kakemann123@postgres:5432/pulse";
 
-console.log(
-  "🔌 Connecting to:",
-  connectionString.includes("@postgres:") ? "Docker network" : "localhost"
-);
 
-const pool = new Pool({ connectionString });
-const db = drizzle(pool);
 
-async function seed() {
-  console.log("🌱 Starting seed...");
+export const seedData = async (env?: Env) => {
+  try {
+    const db = drizzle(env?.DB ?? WorkerEnv.DB);
+
 
   // 🗑️ SLETT GAMMEL DATA FØRST
   console.log("🗑️  Clearing existing data...");
@@ -116,3 +110,5 @@ seed()
   .finally(async () => {
     await pool.end();
   });
+
+  
