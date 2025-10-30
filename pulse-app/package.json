@@ -10,9 +10,14 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
+    "dev:init": "rw-scripts dev-init",
     "build": "vite build",
     "preview": "vite preview",
-    "seed": "tsx ./scripts/seed.ts",
+    "worker:run": "rw-scripts worker-run",
+    "migrate:new": "drizzle-kit generate",
+    "migrate:dev": "wrangler d1 migrations apply DB --local",
+    "migrate:prod": "wrangler d1 migrations apply DB --remote",
+    "seed": "pnpm run worker:run ./scripts/seed.ts",
     "types": "tsc"
   },
   "dependencies": {
