@@ -11,11 +11,11 @@ import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
 import { env as WorkerEnv } from "cloudflare:workers";
 
-// Use DATABASE_URL from environment
-
 export const seedData = async (env?: any) => {
   try {
     const db = drizzle(env?.DB ?? WorkerEnv.DB);
+
+    console.log("🌱 Starting seed...");
 
     // 🗑️ SLETT GAMMEL DATA FØRST
     console.log("🗑️  Clearing existing data...");
@@ -46,6 +46,8 @@ export const seedData = async (env?: any) => {
       .values([{ name: "Push Ups" }, { name: "Pull Ups" }, { name: "Squats" }])
       .returning({ id: exercisesTable.id });
 
+    console.log("✅ Created exercises");
+
     // Opprett workout
     const [workout] = await db
       .insert(workoutsTable)
@@ -56,30 +58,34 @@ export const seedData = async (env?: any) => {
       })
       .returning({ id: workoutsTable.id });
 
+    console.log("✅ Created workout:", workout.id);
+
     // Koble exercises til workout
     await db.insert(workoutExercises).values([
       {
-        workoutId: workout.id.toString(),
-        exerciseId: pushUps.id.toString(),
+        workoutId: workout.id,
+        exerciseId: pushUps.id,
         sets: 4,
         reps: 15,
         weight: null,
       },
       {
-        workoutId: workout.id.toString(),
-        exerciseId: pullUps.id.toString(),
+        workoutId: workout.id,
+        exerciseId: pullUps.id,
         sets: 5,
         reps: 5,
         weight: null,
       },
       {
-        workoutId: workout.id.toString(),
-        exerciseId: squats.id.toString(),
+        workoutId: workout.id,
+        exerciseId: squats.id,
         sets: 4,
         reps: 20,
         weight: 50,
       },
     ]);
+
+    console.log("✅ Created workout exercises");
 
     // Opprett goal
     await db.insert(goalsTable).values({
@@ -90,20 +96,25 @@ export const seedData = async (env?: any) => {
       deadline: "2025-11-30",
     });
 
+    console.log("✅ Created goal");
+
     // Opprett badge
     await db.insert(badges).values({
       userId: user.id,
       name: "First Workout Completed",
     });
-    const result = await db.select().from(badges).all();
 
-    console.log("✅ Seeding complete");
+    console.log("✅ Created badge");
 
+    // Hent badges for å verifisere (UTEN .all())
+    const result = await db.select().from(badges);
+
+    console.log("✅ Seeding complete - Created", result.length, "badges");
     console.log("🌱 Finished seeding");
 
     return result;
   } catch (error) {
-    console.error("Error seeding database:", error);
+    console.error("❌ Error seeding database:", error);
     throw error;
   }
 };
@@ -111,12 +122,15 @@ export const seedData = async (env?: any) => {
 export default defineScript(async ({ env }) => {
   try {
     await seedData(env);
-    return Response.json(true);
+    return Response.json({
+      success: true,
+      message: "Database seeded successfully",
+    });
   } catch (error) {
-    console.error("Error seeding database:", error);
+    console.error("❌ Error seeding database:", error);
     return Response.json({
       success: false,
-      error: "Failed to seed database",
+      error: error instanceof Error ? error.message : "Failed to seed database",
     });
   }
 });

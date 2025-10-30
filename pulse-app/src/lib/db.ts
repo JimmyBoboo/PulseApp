@@ -5,3 +5,5 @@ import * as schema from "../db/schema";
 export const db = drizzle(env.DB, { schema });
 
 export type DB = DrizzleD1Database<typeof schema>;
+
+export { schema };
