@@ -1,55 +1,54 @@
-import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, real, int } from "drizzle-orm/sqlite-core";
 
 // USERS TABLE
 export const usersTable = sqliteTable("users", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`lower(hex(randomblob(16)))`),
+  id: int("id").primaryKey({
+    autoIncrement: true,
+  }),
   name: text("name").notNull(),
   age: integer("age").notNull(),
   email: text("email").notNull().unique(),
   passwordHash: text("password_hash").notNull(),
-  createdAt: text("created_at")
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
+  // createdAt: text("created_at")
+  //   .default(sql`CURRENT_TIMESTAMP`)
+  //   .notNull(),
 });
 
 // EXERCISES TABLE
 export const exercisesTable = sqliteTable("exercises", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`lower(hex(randomblob(16)))`),
+  id: int("id").primaryKey({
+    autoIncrement: true,
+  }),
   name: text("name").notNull().unique(),
-  createdAt: text("created_at")
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
+  // createdAt: int("created_at")
+  //   .default(sql`CURRENT_TIMESTAMP`)
+  //   .notNull(),
 });
 
 // WORKOUTS TABLE
 export const workoutsTable = sqliteTable("workouts", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`lower(hex(randomblob(16)))`),
-  userId: text("user_id")
+  id: int("id").primaryKey({
+    autoIncrement: true,
+  }),
+  userId: int("user_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
   type: text("type").notNull(),
   date: text("date").notNull(),
-  createdAt: text("created_at")
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
+  // createdAt: int("created_at")
+  //   .default(sql`CURRENT_TIMESTAMP`)
+  //   .notNull(),
 });
 
 // WORKOUT_EXERCISES TABLE
 export const workoutExercises = sqliteTable("workout_exercises", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`lower(hex(randomblob(16)))`),
-  workoutId: text("workout_id")
+  id: int("id").primaryKey({
+    autoIncrement: true,
+  }),
+  workoutId: int("workout_id")
     .notNull()
     .references(() => workoutsTable.id, { onDelete: "cascade" }),
-  exerciseId: text("exercise_id")
+  exerciseId: int("exercise_id")
     .notNull()
     .references(() => exercisesTable.id, { onDelete: "restrict" }),
   sets: integer("sets").notNull().default(3),
@@ -59,10 +58,10 @@ export const workoutExercises = sqliteTable("workout_exercises", {
 
 // GOALS TABLE
 export const goalsTable = sqliteTable("goals", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`lower(hex(randomblob(16)))`),
-  userId: text("user_id")
+  id: int("id").primaryKey({
+    autoIncrement: true,
+  }),
+  userId: int("user_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
   goalType: text("goal_type").notNull(),
@@ -73,16 +72,16 @@ export const goalsTable = sqliteTable("goals", {
 
 // BADGES TABLE
 export const badges = sqliteTable("badges", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`lower(hex(randomblob(16)))`),
-  userId: text("user_id")
+  id: int("id").primaryKey({
+    autoIncrement: true,
+  }),
+  userId: int("user_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
-  awardedAt: text("awarded_at")
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
+  // awardedAt: text("awarded_at")
+  //   .default(sql`CURRENT_TIMESTAMP`)
+  //   .notNull(),
 });
 
 export const schema = {
