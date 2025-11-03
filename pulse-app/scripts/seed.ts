@@ -40,13 +40,66 @@ export const seedData = async (env?: any) => {
 
     console.log("✅ Created user:", user.id);
 
-    // Opprett exercises
-    const [pushUps, pullUps, squats] = await db
-      .insert(exercisesTable)
-      .values([{ name: "Push Ups" }, { name: "Pull Ups" }, { name: "Squats" }])
-      .returning({ id: exercisesTable.id });
+    // Øvelser //Ved Bruk av KI, fikk vi generert 35 øvelser.
+    const exercisesList = [
+      // Bryst (Chest)
+      { name: "Benkpress" },
+      { name: "Incline Benkpress" },
+      { name: "Push Ups" },
+      { name: "Dips" },
+      { name: "Flyes" },
 
-    console.log("✅ Created exercises");
+      // Rygg (Back)
+      { name: "Pull Ups" },
+      { name: "Bent Over Row" },
+      { name: "Lat Pulldown" },
+      { name: "Deadlift" },
+      { name: "T-Bar Row" },
+
+      // Skuldre (Shoulders)
+      { name: "Shoulder Press" },
+      { name: "Lateral Raises" },
+      { name: "Front Raises" },
+      { name: "Rear Delt Flyes" },
+
+      // Armer (Arms)
+      { name: "Bicep Curls" },
+      { name: "Hammer Curls" },
+      { name: "Tricep Extensions" },
+      { name: "Tricep Pushdown" },
+
+      // Ben (Legs)
+      { name: "Squats" },
+      { name: "Leg Press" },
+      { name: "Lunges" },
+      { name: "Leg Curl" },
+      { name: "Leg Extension" },
+      { name: "Calf Raises" },
+
+      // Core
+      { name: "Plank" },
+      { name: "Sit Ups" },
+      { name: "Russian Twists" },
+      { name: "Hanging Leg Raises" },
+
+      // Cardio
+      { name: "Løping" },
+      { name: "Sykling" },
+      { name: "Roing" },
+      { name: "Jumping Jacks" },
+    ];
+
+    const createdExercises = await db
+      .insert(exercisesTable)
+      .values(exercisesList)
+      .returning({ id: exercisesTable.id, name: exercisesTable.name });
+
+    console.log(`✅ Created ${createdExercises.length} exercises`);
+
+    // Finn spesifikke øvelser for workout-eksempel
+    const pushUps = createdExercises.find((e) => e.name === "Push Ups")!;
+    const pullUps = createdExercises.find((e) => e.name === "Pull Ups")!;
+    const squats = createdExercises.find((e) => e.name === "Squats")!;
 
     // Opprett workout
     const [workout] = await db

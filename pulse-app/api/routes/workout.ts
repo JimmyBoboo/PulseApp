@@ -1,75 +1,51 @@
 /**
- * Workouts API Routes med Dummy Data
+ * Workouts API Routes - Koblet til Database
  */
 import { route } from "rwsdk/router";
-
-// Dummy data
-let workouts = [
-  {
-    id: "1",
-    userId: "1",
-    type: "Styrke",
-    reps: 10,
-    vekt: 60,
-    tid: 30,
-    dato: "2025-10-10",
-  },
-  {
-    id: "2",
-    userId: "1",
-    type: "Kondisjon",
-    tid: 45,
-    dato: "2025-10-12",
-  },
-  {
-    id: "3",
-    userId: "2",
-    type: "Styrke",
-    reps: 12,
-    vekt: 50,
-    tid: 25,
-    dato: "2025-10-15",
-  },
-];
-
-//Prøvde her å gjøre om til et mer redwoodsdk typ, men må finne ut hvordan.
-// For workout.ts eksporterer ikke GetAllWorkouts. Lar den ligge, og jobber med dette neste gang...
-
-// route("/api/workouts", async ({ request }) => {
-//   get: () => {
-//     return new Response(JSON.stringify(workouts), {
-//       status: 200,
-//       headers: { "Content-Type": "application/json" },
-//     });
-//   };
-//   post: () => {
-//     return new Response("Not implemented", { status: 501 });
-//   };
-// });
+import { db } from "../../src/lib/db";
+import { workoutsTable, workoutExercises } from "../../src/db/schema";
+import { eq } from "drizzle-orm";
 
 // GET - Hent alle workouts
 export const getAllWorkouts = route("/api/workouts", async ({ request }) => {
   if (request.method === "GET") {
-    return new Response(JSON.stringify(workouts), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    try {
+      const allWorkouts = await db.select().from(workoutsTable);
+      return new Response(JSON.stringify(allWorkouts), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (error) {
+      console.error("Error fetching workouts:", error);
+      return new Response(
+        JSON.stringify({ error: "Failed to fetch workouts" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
   }
 
   // POST - Opprett ny workout
   if (request.method === "POST") {
     try {
       const body = (await request.json()) as any;
-      const newWorkout = {
-        id: String(workouts.length + 1),
-        ...body,
-      };
-      workouts.push(newWorkout);
-      return new Response(JSON.stringify(newWorkout), {
+      const newWorkout = await db
+        .insert(workoutsTable)
+        .values({
+          userId: body.userId,
+          type: body.type,
+          date: body.date,
+        })
+        .returning();
+
+      return new Response(JSON.stringify(newWorkout[0]), {
         status: 201,
         headers: { "Content-Type": "application/json" },
       });
     } catch (error) {
+      console.error("Error creating workout:", error);
       return new Response(JSON.stringify({ error: "Invalid data" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
@@ -85,33 +61,63 @@ export const getWorkoutById = route(
   "/api/workouts/:id",
   async ({ request, params }) => {
     if (request.method === "GET") {
-      const workout = workouts.find((w) => w.id === params.id);
-      if (!workout) {
-        return new Response(JSON.stringify({ error: "Workout not found" }), {
-          status: 404,
+      try {
+        const workout = await db
+          .select()
+          .from(workoutsTable)
+          .where(eq(workoutsTable.id, parseInt(params.id)))
+          .limit(1);
+
+        if (!workout || workout.length === 0) {
+          return new Response(JSON.stringify({ error: "Workout not found" }), {
+            status: 404,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+        return new Response(JSON.stringify(workout[0]), {
+          status: 200,
           headers: { "Content-Type": "application/json" },
         });
+      } catch (error) {
+        console.error("Error fetching workout:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to fetch workout" }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
       }
-      return new Response(JSON.stringify(workout), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
     }
 
     // DELETE - Sletter workout
     if (request.method === "DELETE") {
-      const index = workouts.findIndex((w) => w.id === params.id);
-      if (index === -1) {
-        return new Response(JSON.stringify({ error: "Workout not found" }), {
-          status: 404,
+      try {
+        const deleted = await db
+          .delete(workoutsTable)
+          .where(eq(workoutsTable.id, parseInt(params.id)))
+          .returning();
+
+        if (!deleted || deleted.length === 0) {
+          return new Response(JSON.stringify({ error: "Workout not found" }), {
+            status: 404,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+        return new Response(JSON.stringify({ message: "Workout deleted" }), {
+          status: 200,
           headers: { "Content-Type": "application/json" },
         });
+      } catch (error) {
+        console.error("Error deleting workout:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to delete workout" }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
       }
-      workouts.splice(index, 1);
-      return new Response(JSON.stringify({ message: "Workout deleted" }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
     }
 
     return new Response("Method not allowed", { status: 405 });
