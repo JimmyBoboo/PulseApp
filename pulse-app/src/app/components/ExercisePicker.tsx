@@ -54,22 +54,6 @@ const exercisesByType: Record<string, string[]> = {
     "Calf raises",
     "Hamstring curls",
   ],
-  HIIT: [
-    "Burpees",
-    "Jump squats",
-    "Mountain climbers",
-    "High knees",
-    "Sprint intervals",
-    "Box jumps",
-  ],
-  Yoga: [
-    "Downward dog",
-    "Warrior pose",
-    "Tree pose",
-    "Child's pose",
-    "Sun salutation",
-    "Pigeon pose",
-  ],
 };
 
 export function ExercisePicker({

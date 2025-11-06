@@ -11,8 +11,6 @@ export const workoutTypes = [
   { value: "Full body", label: "Helkropp", icon: "🧍" },
   { value: "Upper body", label: "Overkropp", icon: "💪" },
   { value: "Lower body", label: "Underkropp", icon: "🦵" },
-  { value: "HIIT", label: "HIIT", icon: "⚡" },
-  { value: "Yoga", label: "Yoga", icon: "🧘" },
 ];
 
 export function WorkoutTypeSelector({
