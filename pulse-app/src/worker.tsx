@@ -16,6 +16,11 @@ import { getAllUsers, getUserById } from "../api/routes/users";
 import { getAllWorkouts, getWorkoutById } from "../api/routes/workout";
 import { getAllExercises, getExerciseById } from "../api/routes/exercises";
 import { getAllBadges, getBadgeById } from "../api/routes/badges";
+import {
+  getWorkoutExercises,
+  addExerciseToWorkout,
+  deleteWorkoutExercise,
+} from "../api/routes/workoutExercises";
 
 export type AppContext = {};
 
@@ -45,6 +50,11 @@ export default defineApp([
   // Badges API
   getAllBadges,
   getBadgeById,
+
+  // Workout Exercises API
+  getWorkoutExercises,
+  addExerciseToWorkout,
+  deleteWorkoutExercise,
 
   // Page Routes
   render(Document, [

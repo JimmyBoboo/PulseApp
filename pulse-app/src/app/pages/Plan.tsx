@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { WorkoutTypeSelector } from "@/app/components/WorkoutTypeSelector";
-import { ExercisePicker } from "@/app/components/ExercisePicker";
-import { WorkoutBuilder } from "@/app/components/WorkoutBuilder";
+import { WorkoutTypeSelector } from "../components/WorkoutTypeSelector";
+import { ExercisePicker } from "../components/ExercisePicker";
+import { WorkoutBuilder } from "../components/WorkoutBuilder";
 
 interface SelectedExercise {
   id: number;
@@ -60,19 +60,52 @@ export const Plan = () => {
 
   const handleSaveWorkout = async () => {
     try {
+      // Sjekk først om vi har en bruker
+      const usersResponse = await fetch("/api/users");
+      if (!usersResponse.ok) {
+        alert("Kunne ikke hente brukere");
+        return;
+      }
+      const users = (await usersResponse.json()) as Array<{
+        id: number;
+        name: string;
+      }>;
+      console.log("Tilgjengelige brukere:", users);
+
+      if (!users || users.length === 0) {
+        alert("Ingen brukere funnet i databasen. Kjør seed-scriptet først!");
+        return;
+      }
+
+      const userId = users[0].id; // Bruk første bruker
+
       // Først lagre workout
+      const workoutData = {
+        userId: userId,
+        type: workoutType,
+        date: new Date().toISOString().split("T")[0],
+      };
+
+      console.log("Sender workout data:", workoutData);
+
       const workoutResponse = await fetch("/api/workouts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: 1, // Hardcoded for now
-          type: workoutType,
-          date: new Date().toISOString().split("T")[0],
-        }),
+        body: JSON.stringify(workoutData),
       });
+
+      console.log("Workout response status:", workoutResponse.status);
+
+      if (!workoutResponse.ok) {
+        const errorText = await workoutResponse.text();
+        console.error("Workout response error:", errorText);
+        alert(`Feil ved lagring av økt: ${errorText}`);
+        return;
+      }
 
       if (workoutResponse.ok) {
         const workout = (await workoutResponse.json()) as { id: number };
+        console.log("Workout lagret med ID:", workout.id);
 
         // Så lagre alle øvelsene til workout
         for (const exercise of selectedExercises) {
@@ -89,7 +122,7 @@ export const Plan = () => {
           });
         }
 
-        // Reset state
+        // Tilbakestill state etter lagring
         setWorkoutType("");
         setSelectedExercises([]);
         alert("Økt lagret! 🎉");
