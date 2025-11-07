@@ -4,6 +4,7 @@ import { useState } from "react";
 import { WorkoutTypeSelector } from "../components/WorkoutTypeSelector";
 import { ExercisePicker } from "../components/ExercisePicker";
 import { WorkoutBuilder } from "../components/WorkoutBuilder";
+import { SavedWorkouts } from "../components/SavedWorkouts";
 
 interface SelectedExercise {
   id: number;
@@ -18,14 +19,15 @@ export const Plan = () => {
   const [selectedExercises, setSelectedExercises] = useState<
     SelectedExercise[]
   >([]);
+  const [refreshWorkouts, setRefreshWorkouts] = useState(false);
 
   const handleSelectType = (type: string) => {
     setWorkoutType(type);
-    setSelectedExercises([]); // Reset exercises when changing type
+    setSelectedExercises([]); // Restarter valgte øvelser når type endres
   };
 
   const handleAddExercise = (exerciseId: number, exerciseName: string) => {
-    // Sjekk om øvelsen allerede er lagt til
+    // Sjekker om øvelsen er lagt inn fra før av..
     if (selectedExercises.some((ex) => ex.id === exerciseId)) {
       return;
     }
@@ -125,6 +127,7 @@ export const Plan = () => {
         // Tilbakestill state etter lagring
         setWorkoutType("");
         setSelectedExercises([]);
+        setRefreshWorkouts(!refreshWorkouts); // Trigger refresh av SavedWorkouts
         alert("Økt lagret! 🎉");
       }
     } catch (error) {
@@ -135,7 +138,7 @@ export const Plan = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
-      <div className="container mx-auto max-w-6xl">
+      <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4 text-gray-800">
             Treningsplanlegger
@@ -145,31 +148,39 @@ export const Plan = () => {
           </p>
         </div>
 
-        <div className="space-y-6">
-          {/* Steg 1: Velg type økt */}
-          <WorkoutTypeSelector
-            selectedType={workoutType}
-            onSelectType={handleSelectType}
-          />
-
-          {/* Steg 2: Velg øvelser (vises bare når type er valgt) */}
-          {workoutType && (
-            <ExercisePicker
-              workoutType={workoutType}
-              onAddExercise={handleAddExercise}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Venstre kolonne: Opprett ny økt */}
+          <div className="space-y-6">
+            {/* Steg 1: Velg type økt */}
+            <WorkoutTypeSelector
+              selectedType={workoutType}
+              onSelectType={handleSelectType}
             />
-          )}
 
-          {/* Steg 3: Bygg workout med sets/reps/weight */}
-          {workoutType && (
-            <WorkoutBuilder
-              selectedExercises={selectedExercises}
-              onUpdateExercise={handleUpdateExercise}
-              onRemoveExercise={handleRemoveExercise}
-              onSaveWorkout={handleSaveWorkout}
-              workoutType={workoutType}
-            />
-          )}
+            {/* Steg 2: Velg øvelser (vises bare når type er valgt) */}
+            {workoutType && (
+              <ExercisePicker
+                workoutType={workoutType}
+                onAddExercise={handleAddExercise}
+              />
+            )}
+
+            {/* Steg 3: Bygg workout med sets/reps/weight */}
+            {workoutType && (
+              <WorkoutBuilder
+                selectedExercises={selectedExercises}
+                onUpdateExercise={handleUpdateExercise}
+                onRemoveExercise={handleRemoveExercise}
+                onSaveWorkout={handleSaveWorkout}
+                workoutType={workoutType}
+              />
+            )}
+          </div>
+
+          {/* Høyre kolonne: Lagrede økter */}
+          <div>
+            <SavedWorkouts onRefresh={refreshWorkouts} />
+          </div>
         </div>
       </div>
     </div>
