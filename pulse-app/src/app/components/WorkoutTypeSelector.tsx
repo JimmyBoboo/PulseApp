@@ -6,11 +6,11 @@ interface WorkoutTypeSelectorProps {
 }
 
 export const workoutTypes = [
-  { value: "Strength", label: "Styrke", icon: "💪" },
-  { value: "Cardio", label: "Kondisjon", icon: "🏃" },
-  { value: "Full body", label: "Helkropp", icon: "🧍" },
-  { value: "Upper body", label: "Overkropp", icon: "💪" },
-  { value: "Lower body", label: "Underkropp", icon: "🦵" },
+  { value: "Strength", label: "Styrke" },
+  { value: "Cardio", label: "Kondisjon" },
+  { value: "Full body", label: "Helkropp" },
+  { value: "Upper body", label: "Overkropp" },
+  { value: "Lower body", label: "Underkropp" },
 ];
 
 export function WorkoutTypeSelector({
@@ -32,7 +32,6 @@ export function WorkoutTypeSelector({
                 : "border-gray-200 hover:border-blue-300"
             }`}
           >
-            <div className="text-3xl mb-2">{type.icon}</div>
             <div className="font-semibold text-gray-800">{type.label}</div>
           </button>
         ))}
