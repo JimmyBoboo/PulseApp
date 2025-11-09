@@ -9,6 +9,7 @@ import { Stats } from "@/app/pages/Stats";
 import { Plan } from "@/app/pages/Plan";
 import { Profile } from "@/app/pages/Profile";
 import { Login } from "@/app/pages/Login";
+import { LogWorkout } from "@/app/pages/LogWorkout";
 
 // Import API Routes
 import { getAllGoals, getGoalById } from "../api/routes/goals";
@@ -16,6 +17,11 @@ import { getAllUsers, getUserById } from "../api/routes/users";
 import { getAllWorkouts, getWorkoutById } from "../api/routes/workout";
 import { getAllExercises, getExerciseById } from "../api/routes/exercises";
 import { getAllBadges, getBadgeById } from "../api/routes/badges";
+import {
+  getWorkoutExercises,
+  addExerciseToWorkout,
+  deleteWorkoutExercise,
+} from "../api/routes/workoutExercises";
 
 export type AppContext = {};
 
@@ -46,6 +52,11 @@ export default defineApp([
   getAllBadges,
   getBadgeById,
 
+  // Workout Exercises API
+  getWorkoutExercises,
+  addExerciseToWorkout,
+  deleteWorkoutExercise,
+
   // Page Routes
   render(Document, [
     route("/", Home),
@@ -54,5 +65,6 @@ export default defineApp([
     route("/plan", Plan),
     route("/profile", Profile),
     route("/login", Login),
+    route("/log-workout", LogWorkout),
   ]),
 ]);

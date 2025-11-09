@@ -31,6 +31,8 @@ export const getAllWorkouts = route("/api/workouts", async ({ request }) => {
   if (request.method === "POST") {
     try {
       const body = (await request.json()) as any;
+      console.log("Received workout data:", body);
+
       const newWorkout = await db
         .insert(workoutsTable)
         .values({
@@ -40,16 +42,22 @@ export const getAllWorkouts = route("/api/workouts", async ({ request }) => {
         })
         .returning();
 
+      console.log("Workout created:", newWorkout[0]);
+
       return new Response(JSON.stringify(newWorkout[0]), {
         status: 201,
         headers: { "Content-Type": "application/json" },
       });
     } catch (error) {
       console.error("Error creating workout:", error);
-      return new Response(JSON.stringify({ error: "Invalid data" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      console.error("Error details:", JSON.stringify(error, null, 2));
+      return new Response(
+        JSON.stringify({ error: "Invalid data", details: String(error) }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
   }
 

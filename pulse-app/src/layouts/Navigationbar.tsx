@@ -3,11 +3,6 @@ export default function NavigationBar() {
     <nav className="flex items-center justify-between px-8 py-4 bg-gradient-to-r from-gray-900 to-black text-white shadow-lg">
       {/* Logo på venstre side */}
       <div className="flex items-center space-x-3">
-        <img
-          src="/images/pulse-logo.png"
-          alt="Pulse logo"
-          className="h-10 w-auto"
-        />
         <span className="text-2xl font-bold tracking-wide">Pulse</span>
       </div>
 
@@ -24,6 +19,12 @@ export default function NavigationBar() {
           className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
         >
           Stats
+        </a>
+        <a
+          href="/log-workout"
+          className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
+        >
+          Log Workout
         </a>
         <a
           href="/plan"
