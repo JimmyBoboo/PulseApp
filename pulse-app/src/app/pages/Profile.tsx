@@ -1,3 +1,6 @@
+'use client'
+import { ProfilePage } from '../components/ProfilePage/ProfilePage'
+
 export const Profile = () => {
   return (
     <div className="container mx-auto px-8 py-16">
@@ -7,6 +10,9 @@ export const Profile = () => {
           Manage your account and personal information
         </p>
       </div>
+
+      {/* Her vises selve profilen */}
+      <ProfilePage />
     </div>
-  );
-};
+  )
+}
