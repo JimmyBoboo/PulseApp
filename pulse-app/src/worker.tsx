@@ -9,6 +9,7 @@ import { Stats } from "@/app/pages/Stats";
 import { Plan } from "@/app/pages/Plan";
 import { Profile } from "@/app/pages/Profile";
 import { Login } from "@/app/pages/Login";
+import { LogWorkout } from "@/app/pages/LogWorkout";
 
 // Import API Routes
 import { getAllGoals, getGoalById } from "../api/routes/goals";
@@ -64,5 +65,6 @@ export default defineApp([
     route("/plan", Plan),
     route("/profile", Profile),
     route("/login", Login),
+    route("/log-workout", LogWorkout),
   ]),
 ]);

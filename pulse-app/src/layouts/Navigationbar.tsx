@@ -21,6 +21,12 @@ export default function NavigationBar() {
           Stats
         </a>
         <a
+          href="/log-workout"
+          className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
+        >
+          Log Workout
+        </a>
+        <a
           href="/plan"
           className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
         >
