@@ -20,6 +20,7 @@ interface WorkoutBuilderProps {
   onRemoveExercise: (id: number) => void;
   onSaveWorkout: () => void;
   workoutType: string;
+  buttonText?: string;
 }
 
 export function WorkoutBuilder({
@@ -28,6 +29,7 @@ export function WorkoutBuilder({
   onRemoveExercise,
   onSaveWorkout,
   workoutType,
+  buttonText = "Lagre økt",
 }: WorkoutBuilderProps) {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
@@ -126,7 +128,7 @@ export function WorkoutBuilder({
         onClick={onSaveWorkout}
         className="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
       >
-        Lagre økt
+        {buttonText}
       </button>
     </div>
   );
