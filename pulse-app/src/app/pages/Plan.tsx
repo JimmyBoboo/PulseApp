@@ -128,7 +128,7 @@ export const Plan = () => {
         setWorkoutType("");
         setSelectedExercises([]);
         setRefreshWorkouts(!refreshWorkouts); // Trigger refresh av SavedWorkouts
-        alert("Økt lagret! 🎉");
+        alert("Økten er lagret!");
       }
     } catch (error) {
       console.error("Failed to save workout:", error);
