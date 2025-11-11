@@ -4,7 +4,7 @@
 
 PROSJEKTOVERSIKT:
 PulseApp er en treningsapp bygget med RedwoodSDK, React 19, Drizzle ORM og 
-PostgreSQL. Appen bruker React Server Components og har en REST API backend.
+SQLite. Appen bruker React Server Components og har en REST API backend.
 
 ═══════════════════════════════════════════════════════════════════════════════
 ROOT NIVÅ - Konfigurasjonsfiler
@@ -15,14 +15,10 @@ ROOT NIVÅ - Konfigurasjonsfiler
 ├── 📄 tsconfig.json                 ✅ TypeScript-kompilatorinnstillinger
 ├── 📄 vite.config.mts               ✅ Vite build-konfigurasjon
 ├── 📄 tailwind.config.js            ✅ Tailwind CSS konfigurasjon
-├── 📄 postcss.config.js             ✅ PostCSS konfigurasjon for styling
-├── 📄 drizzle.config.ts             ✅ Drizzle ORM konfigurasjon (PostgreSQL)
+├── 📄 drizzle.config.ts             ✅ Drizzle ORM konfigurasjon (SQLite)
 ├── 📄 wrangler.jsonc                ✅ Cloudflare Workers deployment config
-├── 📄 docker-compose.yml            ✅ Docker services (PostgreSQL database)
-├── 📄 Dockerfile                    ✅ Container image for app deployment
 ├── 📄 README.md                     ✅ Prosjektdokumentasjon, oppsett, kjøreinstruksjoner
-├── 📄 .gitignore                    ⏸️ Git ignoreringsregler (bør opprettes)
-└── 📄 .env                          ⏸️ Environment variables (DATABASE_URL, secrets)
+└── 📄 .gitignore                    ✅ Git ignoreringsregler
 
 ═══════════════════════════════════════════════════════════════════════════════
 SRC/ - Hovedkildekode
@@ -45,15 +41,23 @@ SRC/ - Hovedkildekode
 │   │
 │   ├── 📁 pages/                    [SIDE-KOMPONENTER - RedwoodSDK routes]
 │   │   ├── 📄 Home.tsx              ✅ Forside med oversikt
+│   │   │                               ✅ Viser økter fra database
+│   │   │                               ✅ Viser brukerinfo og badges
 │   │   ├── 📄 Stats.tsx             ✅ Treningsstatistikk
-│   │   │                               ⏸️ TODO: Hente data fra /api/workouts
-│   │   │                               ⏸️ TODO: Vise grafer/tabeller
+│   │   │                               ✅ Henter data fra /api/workouts
+│   │   │                               ✅ Viser tabell med alle økter
+│   │   │                               ✅ Viser statistikk (totalt, mest brukte type)
 │   │   ├── 📄 Plan.tsx              ✅ Treningsplanlegging
-│   │   │                               ⏸️ TODO: Skjema for ny workout
-│   │   │                               ⏸️ TODO: Velge exercises
+│   │   │                               ✅ Skjema for ny workout
+│   │   │                               ✅ Velge exercises
+│   │   │                               ✅ Lagre økter til database
+│   │   ├── 📄 LogWorkout.tsx        ✅ Logg fullførte økter
+│   │   │                               ✅ Velg dato for økt
+│   │   │                               ✅ Velg type og øvelser
+│   │   │                               ✅ Lagre til database
 │   │   ├── 📄 Profile.tsx           ✅ Brukerprofil
-│   │   │                               ⏸️ TODO: Vise brukerinfo fra /api/users
-│   │   │                               ⏸️ TODO: Vise badges fra /api/badges
+│   │   │                               ✅ Viser økter fra database
+│   │   │                               ⏸️ TODO: Vise goals dynamisk
 │   │   ├── 📄 Login.tsx             ✅ Innloggingsside
 │   │   │                               ⏸️ TODO: Autentiseringslogikk
 │   │   └── 📄 About.tsx             ✅ Om-side
@@ -66,42 +70,47 @@ SRC/ - Hovedkildekode
 │                                       - Brukes på alle sider
 │
 ├── 📁 components/                   [GJENBRUKBARE UI-KOMPONENTER]
-│   │                                   ⏸️ TODO: Button.tsx (styled button)
-│   │                                   ⏸️ TODO: FormInput.tsx (form fields)
-│   │                                   ⏸️ TODO: Card.tsx (content card)
-│   │                                   ⏸️ TODO: Modal.tsx (popup modal)
-│   │                                   ⏸️ TODO: WorkoutCard.tsx (workout display)
-│   │                                   ⏸️ TODO: ExerciseList.tsx (exercise selector)
-│   │                                   ⏸️ TODO: GoalProgress.tsx (progress bar)
-│   │                                   ⏸️ TODO: BadgeDisplay.tsx (badge icon)
-│   └── 📁 ui/                          Basis UI-komponenter
-│   └── 📁 forms/                       Form-komponenter
-│   └── 📁 layout/                      Layout-hjelpere
+│   ├── 📄 WorkoutTypeSelector.tsx   ✅ Velger for treningstype
+│   ├── 📄 ExercisePicker.tsx        ✅ Velger for øvelser basert på type
+│   ├── 📄 WorkoutBuilder.tsx        ✅ Builder for å sette sets/reps/weight
+│   ├── 📄 SavedWorkouts.tsx         ✅ Viser lagrede økter
+│   └── 📁 ProfilePage/              ✅ Profilside-komponenter
+│       ├── 📄 ProfilePage.tsx       ✅ Hovedkomponent
+│       ├── 📄 ProfileCard.tsx       ✅ Brukerkort
+│       ├── 📄 ActivitiesCard.tsx    ✅ Aktivitetsliste
+│       ├── 📄 BadgesCard.tsx        ✅ Badge-display
+│       ├── � ProfileAvatar.tsx     ✅ Profilbilde
+│       └── � types.ts              ✅ TypeScript types
+│
+├── 📁 services/                     [BUSINESS LOGIC & API CLIENTS]
+│   │                                   ⏸️ TODO: workoutService.ts (workout CRUD operations)
+│   │                                      - getAllWorkouts()
+│   │                                      - createWorkout()
+│   │                                      - createWorkoutExercise()
+│   │                                   ⏸️ TODO: userService.ts (user operations)
+│   │                                      - getCurrentUser()
+│   │                                   ⏸️ TODO: exerciseService.ts (exercise operations)
+│   │                                      - getAllExercises()
+│
+├── 📁 hooks/                        [CUSTOM REACT HOOKS]
+│   │                                   ⏸️ TODO: useFetchWorkouts.ts (hent workouts med state)
+│   │                                   ⏸️ TODO: useLogWorkout.ts (logg workout logikk)
+│   │                                   ⏸️ TODO: useFetchExercises.ts (hent exercises med state)
+│   │                                   ⏸️ TODO: useAuth.ts (autentisering)
 │
 ├── 📁 context/                      [REACT CONTEXT/STATE MANAGEMENT]
 │   │                                   ⏸️ TODO: AuthContext.tsx (user session)
 │   │                                   ⏸️ TODO: WorkoutContext.tsx (global workout state)
 │   │                                   ⏸️ TODO: ThemeContext.tsx (dark/light mode)
-│   └── 📁 hooks/                       Custom React hooks
-│       │                               ⏸️ TODO: useAuth.ts
-│       │                               ⏸️ TODO: useFetch.ts
-│       │                               ⏸️ TODO: useLocalStorage.ts
-│
-├── 📁 services/                     [BUSINESS LOGIC & API CLIENTS]
-│   │                                   ⏸️ TODO: workoutService.ts (workout logic)
-│   │                                   ⏸️ TODO: userService.ts (user management)
-│   │                                   ⏸️ TODO: goalService.ts (goal calculations)
-│   │                                   ⏸️ TODO: badgeService.ts (badge awards)
-│   │                                   ⏸️ TODO: apiClient.ts (fetch wrapper)
 │
 └── 📁 db/                           [DATABASE SCHEMA]
-    └── 📄 schema.ts                 ✅ Drizzle ORM schema (6 tables)
-                                        - users (id, name, email, createdAt)
-                                        - exercises (id, name, category, description)
-                                        - workouts (id, userId, type, reps, vekt, tid, dato)
-                                        - workoutExercises (workout-exercise junction)
-                                        - goals (id, userId, title, target, current, unit, deadline)
-                                        - badges (id, userId, name, description, awardedAt)
+    └── 📄 schema.ts                 ✅ Drizzle ORM schema (6 tables) - SQLite
+                                        - users (id, name, age, email, passwordHash)
+                                        - exercises (id, name)
+                                        - workouts (id, userId, type, date)
+                                        - workoutExercises (id, workoutId, exerciseId, sets, reps, weight)
+                                        - goals (id, userId, goalType, value, status, deadline)
+                                        - badges (id, userId, name)
 
 ═══════════════════════════════════════════════════════════════════════════════
 API/ - REST API Backend
@@ -114,70 +123,49 @@ API/ - REST API Backend
     │                                   - POST /api/workouts (ny workout)
     │                                   - GET /api/workouts/:id (én workout)
     │                                   - DELETE /api/workouts/:id
-    │                                   ✅ Dummy data (in-memory array)
-    │                                   ⏸️ TODO: Koble til database via Drizzle
+    │                                   ✅ Koblet til SQLite database via Drizzle
+    │
+    ├── 📄 workoutExercises.ts       ✅ WorkoutExercises API
+    │                                   - POST /api/workoutExercises (legg til øvelse i workout)
+    │                                   ✅ Koblet til SQLite database
     │
     ├── 📄 users.ts                  ✅ Users API
     │                                   - GET /api/users (alle brukere)
     │                                   - POST /api/users (ny bruker)
     │                                   - GET /api/users/:id (én bruker)
     │                                   - DELETE /api/users/:id
-    │                                   ✅ Dummy data
-    │                                   ⏸️ TODO: Database integration
+    │                                   ✅ Koblet til SQLite database
     │
     ├── 📄 exercises.ts              ✅ Exercises API
     │                                   - GET /api/exercises (alle øvelser)
     │                                   - POST /api/exercises (ny øvelse)
     │                                   - GET /api/exercises/:id (én øvelse)
     │                                   - DELETE /api/exercises/:id
-    │                                   ✅ Dummy data
-    │                                   ⏸️ TODO: Database integration
+    │                                   ✅ Koblet til SQLite database
     │
     ├── 📄 goals.ts                  ✅ Goals API
     │                                   - GET /api/goals (alle mål)
     │                                   - POST /api/goals (nytt mål)
     │                                   - GET /api/goals/:id (ett mål)
     │                                   - DELETE /api/goals/:id
-    │                                   ✅ Dummy data
-    │                                   ⏸️ TODO: Database integration
+    │                                   ✅ Koblet til SQLite database
     │
     └── 📄 badges.ts                 ✅ Badges API
                                         - GET /api/badges (alle badges)
                                         - POST /api/badges (ny badge)
                                         - GET /api/badges/:id (én badge)
                                         - DELETE /api/badges/:id
-                                        ✅ Dummy data
-                                        ⏸️ TODO: Database integration
-
-═══════════════════════════════════════════════════════════════════════════════
-TYPES/ - TypeScript Type Definitions
-═══════════════════════════════════════════════════════════════════════════════
-
-📁 types/                            [TYPE DEFINITIONS]
-├── 📄 css.d.ts                      ✅ CSS module types
-├── 📄 rw.d.ts                       ✅ RedwoodSDK types
-├── 📄 vite.d.ts                     ✅ Vite environment types
-│
-│   ⏸️ TODO: Lag domene-spesifikke types:
-│   ⏸️ TODO: workout.types.ts (Workout, WorkoutExercise interfaces)
-│   ⏸️ TODO: user.types.ts (User, UserProfile interfaces)
-│   ⏸️ TODO: exercise.types.ts (Exercise, ExerciseCategory interfaces)
-│   ⏸️ TODO: goal.types.ts (Goal, GoalProgress interfaces)
-│   ⏸️ TODO: badge.types.ts (Badge, BadgeType interfaces)
-│   ⏸️ TODO: api.types.ts (ApiResponse, ApiError interfaces)
+                                        ✅ Koblet til SQLite database
 
 ═══════════════════════════════════════════════════════════════════════════════
 DRIZZLE/ - Database Migrations
 ═══════════════════════════════════════════════════════════════════════════════
 
 📁 drizzle/                          [DATABASE MIGRATIONS - Auto-generated]
-├── 📄 0000_kind_jane_foster.sql     ✅ Initial schema migration
-├── 📄 0000_smart_stardust.sql       ✅ Schema update
-├── 📄 0001_tan_human_fly.sql        ✅ Latest migration
+├── 📄 0000_crazy_vector.sql         ✅ Initial schema migration (SQLite)
 └── 📁 meta/                         [MIGRATION METADATA]
     ├── 📄 _journal.json             ✅ Migration history log
-    ├── 📄 0000_snapshot.json        ✅ Schema snapshot
-    └── 📄 0001_snapshot.json        ✅ Schema snapshot
+    └── 📄 0000_snapshot.json        ✅ Schema snapshot
 
 ═══════════════════════════════════════════════════════════════════════════════
 SCRIPTS/ - Development & Build Scripts
@@ -185,10 +173,10 @@ SCRIPTS/ - Development & Build Scripts
 
 📁 scripts/                          [DEV SCRIPTS]
 └── 📄 seed.ts                       ✅ Database seed script
-                                        - Seeder med dummy data for alle tabeller
+                                        - Seeder SQLite database med testdata
+                                        - Legger inn users, exercises, workouts
                                         - Bruker Drizzle ORM insert
-                                        - Kjøres med: rwsdk worker-run scripts/seed.ts
-                                        ⏸️ TODO: Utvide med mer realistisk testdata
+                                        - Kjøres med: pnpm seed
 
 ═══════════════════════════════════════════════════════════════════════════════
 PUBLIC/ - Static Assets
@@ -216,35 +204,42 @@ DOKUMENTASJON
 PRIORITERT UTVIKLINGSLISTE
 ═══════════════════════════════════════════════════════════════════════════════
 
-FASE 1: DATABASE INTEGRASJON [NESTE STEG]
-  ⏸️ 1. Koble API routes til PostgreSQL via Drizzle ORM
-  ⏸️ 2. Fjerne dummy data arrays, bruke db.select()/insert()/update()
-  ⏸️ 3. Teste alle CRUD-operasjoner mot ekte database
-  ⏸️ 4. Implementere error handling for database queries
+FASE 1: DATABASE INTEGRASJON [FULLFØRT]
+  ✅ 1. Koblet API routes til SQLite via Drizzle ORM
+  ✅ 2. Fjernet dummy data arrays, bruker db.select()/insert()/update()
+  ✅ 3. Testet alle CRUD-operasjoner mot ekte database
+  ✅ 4. Implementert error handling for database queries
 
-FASE 2: FRONTEND FUNKSJONALITET
-  ⏸️ 5. Lage form-komponenter (WorkoutForm, GoalForm)
-  ⏸️ 6. Implementere data fetching i pages (fetch fra API)
-  ⏸️ 7. Vise workout-liste på Stats-siden
-  ⏸️ 8. Lage workout plan creator på Plan-siden
-  ⏸️ 9. Vise badges og goals på Profile-siden
+FASE 2: FRONTEND FUNKSJONALITET [DELVIS FULLFØRT]
+  ✅ 5. Laget komponenter (WorkoutTypeSelector, ExercisePicker, WorkoutBuilder)
+  ✅ 6. Implementert data fetching i pages (fetch fra API)
+  ✅ 7. Viser workout-liste på Stats-siden med statistikk
+  ✅ 8. Laget workout plan creator på Plan-siden
+  ✅ 9. Laget LogWorkout-side for å logge fullførte økter
+  ✅ 10. Viser økter på Profile-siden og Home-siden fra database
+  ⏸️ 11. Vise badges og goals på Profile-siden
 
-FASE 3: STATE MANAGEMENT
-  ⏸️ 10. Opprette AuthContext for bruker-session
-  ⏸️ 11. Implementere useAuth hook
-  ⏸️ 12. Beskytte routes (redirect til Login hvis ikke innlogget)
+FASE 3: KODE REFAKTORERING [PLANLAGT]
+  ⏸️ 12. Lage services/ mappe for API-kommunikasjon
+  ⏸️ 13. Flytte fetch-logikk fra komponenter til services
+  ⏸️ 14. Lage custom hooks/ mappe for React state management
+  ⏸️ 15. Oppdatere komponenter til å bruke hooks og services
+  ⏸️ 16. Teste at alt fungerer etter refaktorering
 
-FASE 4: STYLING & UX
-  ⏸️ 13. Løse Tailwind CSS konflikter (v3 vs v4)
-  ⏸️ 14. Style alle komponenter konsekvent
-  ⏸️ 15. Implementere dark mode (ThemeContext)
-  ⏸️ 16. Responsivt design (mobile-first)
+FASE 4: STATE MANAGEMENT
+  ⏸️ 17. Opprette AuthContext for bruker-session
+  ⏸️ 18. Beskytte routes (redirect til Login hvis ikke innlogget)
 
-FASE 5: TESTING & DEPLOYMENT
-  ⏸️ 17. Skrive unit tests (Vitest)
-  ⏸️ 18. Integration tests for API
-  ⏸️ 19. E2E tests (Playwright)
-  ⏸️ 20. Deploy til Cloudflare Workers
+FASE 5: STYLING & UX
+  ⏸️ 19. Løse Tailwind CSS konflikter (v3 vs v4)
+  ⏸️ 20. Style alle komponenter konsekvent
+  ⏸️ 21. Implementere dark mode (ThemeContext)
+  ⏸️ 22. Responsivt design (mobile-first)
+
+FASE 6: TESTING & DEPLOYMENT
+  ⏸️ 23. Skrive unit tests (Vitest)
+  ⏸️ 24. Integration tests for API
+  ⏸️ 25. Deploy til Cloudflare Workers??
 
 ═══════════════════════════════════════════════════════════════════════════════
 TEKNOLOGI STACK
@@ -259,13 +254,12 @@ Frontend:
 Backend:
   - RedwoodSDK routing (REST API)
   - Drizzle ORM 0.44.6 (Database ORM)
-  - PostgreSQL (Database)
+  - SQLite (Database - lokal fil)
   - Cloudflare Workers (Deployment target)
 
 Dev Tools:
   - Vite (Build tool)
   - pnpm (Package manager)
-  - Docker Compose (Local PostgreSQL)
   - Drizzle Kit (Migration tool)
 
 ═══════════════════════════════════════════════════════════════════════════════
@@ -275,9 +269,12 @@ NOTATER & LÆRINGSPUNKTER
 ✅ RedwoodSDK bruker IKKE React Router - har egen routing
 ✅ API routes må ha syntax: route("/path", async ({ request, params }) => {...})
 ✅ Routes må registreres i worker.tsx defineApp array
-✅ Drizzle ORM krever streng type-konvertering (strings for UUIDs, dates)
-✅ PostgreSQL kjører i Docker container (port 5432)
-✅ Seed script kjøres med: rwsdk worker-run scripts/seed.ts
+✅ Drizzle ORM bruker SQLite - database lagres som lokal .db fil
+✅ SQLite bruker int() i stedet for serial() for auto-increment
+✅ Seed script kjøres med: pnpm run seed
+✅ Når du endrer på schema og seed. Så må man kjøre Pnpm run migrate:new...Og deretter: npm run migrate:dev. 
+✅ Komponenter gjenbrukes på tvers av pages (WorkoutBuilder, ExercisePicker)
+✅ Data hentes fra API med fetch() i useEffect hooks
 
 ═══════════════════════════════════════════════════════════════════════════════
 //Ved Hjelp av Claude Sonnet 4.5, fikk vi opp en mer oversiktlig Beskrivelse.
