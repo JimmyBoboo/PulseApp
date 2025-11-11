@@ -161,9 +161,6 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
                   >
                     Slett
                   </button>
-                  <span className="text-gray-400">
-                    {selectedWorkoutId === workout.id ? "▼" : "▶"}
-                  </span>
                 </div>
               </div>
             </div>
