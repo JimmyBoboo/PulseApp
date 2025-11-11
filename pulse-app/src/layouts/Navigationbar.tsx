@@ -1,50 +1,50 @@
-export default function NavigationBar() {
-  return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-gradient-to-r from-gray-900 to-black text-white shadow-lg">
-      {/* Logo på venstre side */}
-      <div className="flex items-center space-x-3">
-        <span className="text-2xl font-bold tracking-wide">Pulse</span>
-      </div>
+'use client'
+import { useEffect, useState } from 'react'
 
-      {/* Navigation links på høyre side */}
-      <div className="flex items-center space-x-8">
-        <a
-          href="/"
-          className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
-        >
-          Home
-        </a>
-        <a
-          href="/stats"
-          className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
-        >
-          Stats
-        </a>
-        <a
-          href="/log-workout"
-          className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
-        >
-          Log Workout
-        </a>
-        <a
-          href="/plan"
-          className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
-        >
-          Plan
-        </a>
-        <a
-          href="/profile"
-          className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
-        >
-          Profile
-        </a>
-        <a
-          href="/login"
-          className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors duration-200 font-medium"
-        >
-          Login
-        </a>
-      </div>
+export default function Navigationbar() {
+
+  const navLinks = [
+    { href: '/', label: 'Hjem' },
+
+    { href: '/stats', label: 'Statistikk' },
+
+    { href: '/log-workout', label: 'Logg økt' },
+
+    { href: '/plan', label: 'Plan' },
+
+    { href: '/profile', label: 'Profil' },
+  ]
+  return (
+     <nav className="flex items-center justify-between bg-black px-8 py-4 text-white shadow-md">
+      <a href="/" className="flex items-center gap-2">
+        <img
+          src="/images/pulse_logo.png"
+          alt="Pulse logo"
+          className="h-9 w-auto object-contain align-middle"
+        />
+      </a>
+      <div className="flex items-center gap-12 ml-auto"></div>
+      <ul className="flex gap-8 mr-4">
+        {navLinks.map((link) => (
+          <li key={link.href}>
+            <a
+              href={link.href}
+              className="font-medium text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+  
+      </ul>
+      <a
+        href="/login"
+        className="bg-[#f56e0b] hover:bg-[#f15000] px-4 py-2 transition-colors duration-200 font-semibold text-white ml-4 rounded-md flex items-center justify-center"
+      >
+        Logg inn
+      </a>
     </nav>
-  );
+    
+  )
 }
+

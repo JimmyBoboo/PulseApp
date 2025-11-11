@@ -2,27 +2,26 @@ import { Activity } from "./types";
 
 export const ActivitiesCard = ({ activities }: { activities: Activity[] }) => {
   return (
-    <div className="bg-white rounded shadow p-4">
-      <h3 className="font-bold mb-3">Dine aktiviteter</h3>
+    <section className="bg-white rounded shadow p-6">
+      <h3 className="font-bold text-lg text-center mb-4">Dine aktiviteter</h3>
+
       {activities.length === 0 ? (
         <p className="text-gray-500 text-sm text-center py-4">
           Ingen aktiviteter ennå
         </p>
       ) : (
-        <div>
+        <ul>
           {activities.map((a) => (
-            <div
-              key={a.id}
-              className="flex justify-between border-b py-2 text-sm"
-            >
-              <span className="text-gray-600">
-                {new Date(a.date).toLocaleDateString("no-NO")}
-              </span>
-              <span className="font-medium text-gray-800">{a.type}</span>
-            </div>
+            <li key={a.id} className="flex justify-between items-center border-b py-3 text-sm">
+              <span className="text-gray-600 font-medium text-sm w-1/3">{new Date(a.date).toLocaleDateString("no-NO")}</span>
+              <div className="flex flex-col items-center w-1/3">
+                <span className="font-semibold text-gray-800 text-base">{a.type}</span>
+              </div>
+              <span className="text-gray-600 font-semibold text-base w-1/3 text-right">{a.duration}</span>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
-    </div>
+    </section>
   );
 };
