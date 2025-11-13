@@ -35,6 +35,9 @@ export const workoutsTable = sqliteTable("workouts", {
     .references(() => usersTable.id, { onDelete: "cascade" }),
   type: text("type").notNull(),
   date: text("date").notNull(),
+  isCompleted: integer("is_completed", { mode: "boolean" })
+    .notNull()
+    .default(false),
   // createdAt: int("created_at")
   //   .default(sql`CURRENT_TIMESTAMP`)
   //   .notNull(),

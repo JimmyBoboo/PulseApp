@@ -1,6 +1,3 @@
-/**
- * Goals API Routes - Koblet til Database
- */
 import { route } from "rwsdk/router";
 import { db } from "../../src/lib/db";
 import { goalsTable } from "../../src/db/schema";

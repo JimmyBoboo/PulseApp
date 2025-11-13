@@ -86,6 +86,7 @@ export const Plan = () => {
         userId: userId,
         type: workoutType,
         date: new Date().toISOString().split("T")[0],
+        isCompleted: false,
       };
 
       console.log("Sender workout data:", workoutData);

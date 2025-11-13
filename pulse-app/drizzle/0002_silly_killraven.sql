@@ -1,0 +1,1 @@
+ALTER TABLE `workouts` RENAME COLUMN "is_template" TO "is_completed";

@@ -10,7 +10,7 @@ export const Stats = () => {
     // Henter alle øktene
     async function fetchWorkouts() {
       try {
-        const response = await fetch("/api/workouts");
+        const response = await fetch("/api/workouts?isCompleted=true");
         if (response.ok) {
           const data: any = await response.json();
 

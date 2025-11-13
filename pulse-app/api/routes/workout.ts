@@ -1,6 +1,3 @@
-/**
- * Workouts API Routes - Koblet til Database
- */
 import { route } from "rwsdk/router";
 import { db } from "../../src/lib/db";
 import { workoutsTable, workoutExercises } from "../../src/db/schema";
@@ -10,7 +7,27 @@ import { eq } from "drizzle-orm";
 export const getAllWorkouts = route("/api/workouts", async ({ request }) => {
   if (request.method === "GET") {
     try {
-      const allWorkouts = await db.select().from(workoutsTable);
+      const url = new URL(request.url);
+      const isCompleted = url.searchParams.get("isCompleted");
+
+      let allWorkouts;
+      if (isCompleted === "true") {
+        // Hent bare fullførte økter
+        allWorkouts = await db
+          .select()
+          .from(workoutsTable)
+          .where(eq(workoutsTable.isCompleted, true));
+      } else if (isCompleted === "false") {
+        // Hent bare planlagte økter
+        allWorkouts = await db
+          .select()
+          .from(workoutsTable)
+          .where(eq(workoutsTable.isCompleted, false));
+      } else {
+        // Hent alle økter
+        allWorkouts = await db.select().from(workoutsTable);
+      }
+
       return new Response(JSON.stringify(allWorkouts), {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -39,6 +56,7 @@ export const getAllWorkouts = route("/api/workouts", async ({ request }) => {
           userId: body.userId,
           type: body.type,
           date: body.date,
+          isCompleted: body.isCompleted ?? false,
         })
         .returning();
 
