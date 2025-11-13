@@ -7,6 +7,7 @@ interface Workout {
   userId: number;
   type: string;
   date: string;
+  isCompleted: boolean;
 }
 
 interface WorkoutExercise {
@@ -39,7 +40,7 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
   const fetchWorkouts = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/workouts");
+      const response = await fetch("/api/workouts?isCompleted=false");
       if (response.ok) {
         const data = (await response.json()) as Workout[];
         setWorkouts(data);

@@ -34,7 +34,7 @@ export const ProfilePage = () => {
     // Hent økter fra databasen
     async function fetchWorkouts() {
       try {
-        const response = await fetch("/api/workouts");
+        const response = await fetch("/api/workouts?isCompleted=true");
         if (response.ok) {
           const workouts: any = await response.json();
 

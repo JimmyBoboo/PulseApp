@@ -1,6 +1,3 @@
-/**
- * Users API Routes - Koblet til Database
- */
 import { route } from "rwsdk/router";
 import { db } from "../../src/lib/db";
 import { usersTable } from "../../src/db/schema";

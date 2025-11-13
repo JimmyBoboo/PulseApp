@@ -98,6 +98,7 @@ export const LogWorkout = () => {
         userId: userId,
         type: workoutType,
         date: workoutDate,
+        isCompleted: true,
       };
 
       const workoutResponse = await fetch("/api/workouts", {
