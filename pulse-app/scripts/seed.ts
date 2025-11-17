@@ -143,10 +143,10 @@ export const seedData = async (env?: any) => {
     // Opprett goal
     await db.insert(goalsTable).values({
       userId: user.id,
-      goalType: "Fat Loss",
-      value: 50,
-      status: "active",
-      deadline: "2025-11-30",
+      description: "Sett målet ditt her",
+      deadline: "2025-24-12",
+      isCompleted: false,
+      completedAt: null,
     });
 
     console.log("✅ Created goal");
