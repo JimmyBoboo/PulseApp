@@ -11,7 +11,7 @@ export const Profile = () => {
         </p>
       </div>
 
-      {/* Her vises selve profilen */}
+      
       <ProfilePage />
     </div>
   );

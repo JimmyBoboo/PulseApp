@@ -14,6 +14,8 @@ export default function Navigationbar() {
 
     { href: '/profile', label: 'Profil' },
   ]
+
+  
   return (
      <nav className="flex items-center justify-between bg-black px-8 py-4 text-white shadow-md">
       <a href="/" className="flex items-center gap-2">
