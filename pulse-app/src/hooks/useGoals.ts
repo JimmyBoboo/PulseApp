@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { goalsService } from "@/services/goalsService";
 import type { Goal, NewGoalInput } from "@/types/goals";
 
-export const useGoals = (userId: number) => {
+export const useGoals = (userId: number | null) => {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
