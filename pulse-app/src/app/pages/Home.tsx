@@ -4,6 +4,7 @@ import { User, Activity, Badge } from "../components/ProfilePage/types";
 import { ProfileCard } from "../components/ProfilePage/ProfileCard";
 import { ActivitiesCard } from "../components/ProfilePage/ActivitiesCard";
 import { BadgesCard } from "../components/ProfilePage/BadgesCard";
+import TotalWorkouts from "../components/TotalWorkouts";
 
 const MOCK_USER: User = {
   id: "1",
@@ -42,16 +43,15 @@ export const Home = () => {
   const [user, setUser] = useState(MOCK_USER);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
-    // Hent økter fra databasen
     async function fetchWorkouts() {
       try {
         const response = await fetch("/api/workouts");
         if (response.ok) {
           const workouts: any = await response.json();
 
-          // Lag activities fra workouts
           const allActivities = workouts.map((workout: any) => {
             return {
               id: workout.id.toString(),
@@ -61,24 +61,20 @@ export const Home = () => {
             };
           });
 
-          // Sorter etter dato (nyeste først)
           allActivities.sort((a: any, b: any) => {
             const dateA = new Date(a.date).getTime();
             const dateB = new Date(b.date).getTime();
             return dateB - dateA;
           });
 
-          // Tar bare de 5 første
           const activities5 = allActivities.slice(0, 5);
           setActivities(activities5);
 
-          // Oppdater bruker stats
           setUser((prev) => {
             return {
               ...prev,
               sessionsCount: workouts.length,
-              lastActivity:
-                workouts.length > 0 ? activities5[0].date : prev.lastActivity,
+              lastActivity: workouts.length > 0 ? activities5[0].date : prev.lastActivity,
             };
           });
         }
@@ -110,10 +106,7 @@ export const Home = () => {
               user={user}
               onEdit={(data) => setUser({ ...user, ...data })}
             />
-            <section className="w-full max-w-sm bg-white rounded shadow p-4 text-center">
-              <h3 className="font-bold mb-2">Statistikk</h3>
-              <p className="text-gray-500 text-sm">Kommer snart…</p>
-            </section>
+            <TotalWorkouts workouts={activities} />
           </section>
 
           <section className="flex flex-col space-y-6">
