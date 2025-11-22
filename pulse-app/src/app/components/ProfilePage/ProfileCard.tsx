@@ -1,16 +1,22 @@
-'use client'
-import { useState } from 'react'
-import { User } from './types'
-import { ProfileAvatar } from './ProfileAvatar'
+"use client";
+import { useState } from "react";
+import { User } from "../../../interface/types";
+import { ProfileAvatar } from "./ProfileAvatar";
 
-export const ProfileCard = ({ user, onEdit }: { user: User; onEdit?: (data: Partial<User>) => void }) => {
-  const [editing, setEditing] = useState(false)
-  const [name, setName] = useState(user.name)
-  const [age, setAge] = useState(user.age ?? 0)
+export const ProfileCard = ({
+  user,
+  onEdit,
+}: {
+  user: User;
+  onEdit?: (data: Partial<User>) => void;
+}) => {
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState(user.name);
+  const [age, setAge] = useState(user.age ?? 0);
 
   function save() {
-    onEdit?.({ name, age })
-    setEditing(false)
+    onEdit?.({ name, age });
+    setEditing(false);
   }
 
   return (
@@ -23,8 +29,10 @@ export const ProfileCard = ({ user, onEdit }: { user: User; onEdit?: (data: Part
           <p className="text-sm text-gray-500">{user.email}</p>
 
           <div className="mt-4 text-sm text-gray-600">
-            <div>Alder: {user.age ?? '-'}</div>
-            <div>Medlem siden: {new Date(user.createdAt).toLocaleDateString()}</div>
+            <div>Alder: {user.age ?? "-"}</div>
+            <div>
+              Medlem siden: {new Date(user.createdAt).toLocaleDateString()}
+            </div>
           </div>
 
           <button
@@ -64,7 +72,7 @@ export const ProfileCard = ({ user, onEdit }: { user: User; onEdit?: (data: Part
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 // ChatGPT har vært brukt til å bidra med mye av kodingen, inkludert layout, spacing, størrelser og fargekoder (OpenAI, 2025)

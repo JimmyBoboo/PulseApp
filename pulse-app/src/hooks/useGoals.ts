@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { goalsService } from "@/services/goalsService";
-import type { Goal, NewGoalInput } from "@/types/goals";
+import type { Goal, NewGoalInput } from "@/interface/goals";
 
 export const useGoals = (userId: number | null) => {
   const [goals, setGoals] = useState<Goal[]>([]);

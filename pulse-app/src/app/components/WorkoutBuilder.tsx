@@ -8,13 +8,15 @@ interface SelectedExercise {
   sets: number;
   reps: number;
   weight: number;
+  minutes?: number;
+  distance?: number;
 }
 
 interface WorkoutBuilderProps {
   selectedExercises: SelectedExercise[];
   onUpdateExercise: (
     id: number,
-    field: "sets" | "reps" | "weight",
+    field: "sets" | "reps" | "weight" | "minutes" | "distance",
     value: number
   ) => void;
   onRemoveExercise: (id: number) => void;
@@ -32,6 +34,14 @@ export function WorkoutBuilder({
   buttonText = "Lagre økt",
 }: WorkoutBuilderProps) {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+
+  const isCardioExercise = (exerciseName: string) => {
+    //ChatGPT genererte denne funksjonen, sjekker om en øvelse er cardio
+    const cardioExercises = ["løping", "sykling", "roing"];
+    return cardioExercises.some((cardio) =>
+      exerciseName.toLowerCase().includes(cardio)
+    );
+  };
 
   if (selectedExercises.length === 0) {
     return null;
@@ -69,57 +79,103 @@ export function WorkoutBuilder({
               </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">Sett</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={exercise.sets}
-                  onChange={(e) =>
-                    onUpdateExercise(
-                      exercise.id,
-                      "sets",
-                      parseInt(e.target.value) || 1
-                    )
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded"
-                />
+            {isCardioExercise(exercise.name) ? ( // KI (Claude Sonnet 4.5) genererte denne delen for cardio-øvelser fra linje 82-120
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">
+                    Minutter
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={exercise.minutes || 30}
+                    onChange={(e) =>
+                      onUpdateExercise(
+                        exercise.id,
+                        "minutes",
+                        parseInt(e.target.value) || 1
+                      )
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">
+                    Kilometer
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    value={exercise.distance || 5}
+                    onChange={(e) =>
+                      onUpdateExercise(
+                        exercise.id,
+                        "distance",
+                        parseFloat(e.target.value) || 0
+                      )
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">Reps</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={exercise.reps}
-                  onChange={(e) =>
-                    onUpdateExercise(
-                      exercise.id,
-                      "reps",
-                      parseInt(e.target.value) || 1
-                    )
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded"
-                />
+            ) : (
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">
+                    Sett
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={exercise.sets}
+                    onChange={(e) =>
+                      onUpdateExercise(
+                        exercise.id,
+                        "sets",
+                        parseInt(e.target.value) || 1
+                      )
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">
+                    Reps
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={exercise.reps}
+                    onChange={(e) =>
+                      onUpdateExercise(
+                        exercise.id,
+                        "reps",
+                        parseInt(e.target.value) || 1
+                      )
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">Kg</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    value={exercise.weight}
+                    onChange={(e) =>
+                      onUpdateExercise(
+                        exercise.id,
+                        "weight",
+                        parseFloat(e.target.value) || 0
+                      )
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">Kg</label>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.5"
-                  value={exercise.weight}
-                  onChange={(e) =>
-                    onUpdateExercise(
-                      exercise.id,
-                      "weight",
-                      parseFloat(e.target.value) || 0
-                    )
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded"
-                />
-              </div>
-            </div>
+            )}
           </div>
         ))}
       </div>

@@ -12,6 +12,8 @@ interface SelectedExercise {
   sets: number;
   reps: number;
   weight: number;
+  minutes?: number;
+  distance?: number;
 }
 
 export const Plan = () => {
@@ -32,21 +34,28 @@ export const Plan = () => {
       return;
     }
 
+    // Sjekk om det er cardio-øvelse
+    const isCardio = ["løping", "sykling", "roing"].some((cardio) =>
+      exerciseName.toLowerCase().includes(cardio)
+    );
+
     setSelectedExercises([
       ...selectedExercises,
       {
         id: exerciseId,
         name: exerciseName,
-        sets: 3,
-        reps: 10,
-        weight: 0,
+        sets: isCardio ? 0 : 3,
+        reps: isCardio ? 0 : 10,
+        weight: isCardio ? 0 : 0,
+        minutes: isCardio ? 30 : undefined,
+        distance: isCardio ? 5 : undefined,
       },
     ]);
   };
 
   const handleUpdateExercise = (
     id: number,
-    field: "sets" | "reps" | "weight",
+    field: "sets" | "reps" | "weight" | "minutes" | "distance",
     value: number
   ) => {
     setSelectedExercises(

@@ -1,4 +1,4 @@
-import type { Goal, NewGoalInput } from "@/types/goals";
+import type { Goal, NewGoalInput } from "@/interface/goals";
 
 export const goalsService = {
   async fetchAll(): Promise<Goal[]> {

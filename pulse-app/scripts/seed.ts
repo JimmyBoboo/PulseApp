@@ -106,7 +106,7 @@ export const seedData = async (env?: any) => {
       .insert(workoutsTable)
       .values({
         userId: user.id,
-        type: "Full body",
+        type: "Ferdig laget økt - Full Body",
         date: new Date().toISOString().slice(0, 10),
       })
       .returning({ id: workoutsTable.id });
@@ -161,7 +161,6 @@ export const seedData = async (env?: any) => {
 
     // Hent badges for å verifisere (UTEN .all())
     const result = await db.select().from(badges);
-
     console.log("✅ Seeding complete - Created", result.length, "badges");
     console.log("🌱 Finished seeding");
 

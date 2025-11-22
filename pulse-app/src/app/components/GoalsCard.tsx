@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useGoals } from "@/hooks/useGoals";
-import type { NewGoalInput } from "@/types/goals";
+import type { NewGoalInput } from "@/interface/goals";
 
 export const GoalsCard = () => {
   const [userId, setUserId] = useState<number | null>(null);

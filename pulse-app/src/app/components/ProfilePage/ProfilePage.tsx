@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { User, Activity, Badge } from "./types";
+import { User, Activity, Badge } from "../../../interface/types";
 import { ProfileCard } from "./ProfileCard";
-import { ActivitiesCard } from "./ActivitiesCard";
+import { ActivitiesCard } from "../ActivitiesCard";
 import { BadgesCard } from "./BadgesCard";
 import { GoalsCard } from "../GoalsCard";
 
