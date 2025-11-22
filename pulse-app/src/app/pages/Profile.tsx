@@ -10,6 +10,8 @@ export const Profile = () => {
           Manage your account and personal information
         </p>
       </div>
+
+      
       <ProfilePage />
     </div>
   );

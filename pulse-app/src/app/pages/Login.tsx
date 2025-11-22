@@ -1,5 +1,4 @@
 'use client'
-
 export const Login = () => {
   return (
     <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('/images/pulse_login.jpg')" }}>
@@ -52,9 +51,9 @@ export const Login = () => {
           </form>
 
           <footer className="text-center text-white text-sm mt-6">
-            Don't have an account?{" "}
-            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
-              Sign up
+            Har du ingen konto?{" "}
+            <a href="/register" className="text-blue-600 hover:text-blue-700 font-medium">
+              Registrer deg her.
             </a>
           </footer>
         </article>
