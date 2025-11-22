@@ -1,21 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import { User, Activity, Badge } from "../../interface/types";
 import { ProfileCard } from "../components/ProfilePage/ProfileCard";
 import { ActivitiesCard } from "../components/ActivitiesCard";
 import { BadgesCard } from "../components/ProfilePage/BadgesCard";
 import { GoalsList } from "../components/GoalsList";
-
-const MOCK_USER: User = {
-  id: "1",
-  name: "Simen Kingsrød",
-  email: "simen@example.com",
-  age: 29,
-  createdAt: "2022-06-01",
-  sessionsCount: 42,
-  exercisesCount: 320,
-  lastActivity: "2025-10-20",
-};
 
 const MOCK_BADGES: Badge[] = [
   {
@@ -40,11 +30,34 @@ const MOCK_BADGES: Badge[] = [
 ];
 
 export const Home = () => {
-  const [user, setUser] = useState(MOCK_USER);
+  const { user: authUser, loading: authLoading } = useAuth();
+  const [user, setUser] = useState<User | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+
+    if (!authUser) {
+      window.location.href = "/login";
+      return;
+    }
+
+    if (authUser) {
+      setUser({
+        id: authUser.id.toString(),
+        name: authUser.name,
+        email: authUser.email,
+        age: authUser.age,
+        createdAt: "2024-01-01",
+        sessionsCount: 0,
+        exercisesCount: 0,
+        lastActivity: "",
+      });
+    }
+
     // Hent økter fra databasen
     async function fetchWorkouts() {
       try {
@@ -75,6 +88,7 @@ export const Home = () => {
 
           // Oppdater bruker stats
           setUser((prev) => {
+            if (!prev) return prev;
             return {
               ...prev,
               sessionsCount: workouts.length,
@@ -90,9 +104,9 @@ export const Home = () => {
     }
 
     fetchWorkouts();
-  }, []);
+  }, [authUser, authLoading]);
 
-  if (loading) {
+  if (loading || !user || authLoading) {
     return (
       <div className="flex flex-col min-h-screen">
         <main className="flex-grow bg-gray-100 p-8 flex justify-center">

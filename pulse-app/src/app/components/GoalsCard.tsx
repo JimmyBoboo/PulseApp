@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import { useGoals } from "@/hooks/useGoals";
 import type { NewGoalInput } from "@/interface/goals";
 
 export const GoalsCard = () => {
-  const [userId, setUserId] = useState<number | null>(null);
+  const { user } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [newGoal, setNewGoal] = useState<NewGoalInput>({
     description: "",
@@ -12,26 +13,7 @@ export const GoalsCard = () => {
   });
 
   const { goals, loading, error, addGoal, toggleComplete, deleteGoal } =
-    useGoals(userId);
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  const fetchUser = async () => {
-    try {
-      const response = await fetch("/api/users");
-      if (response.ok) {
-        const users = (await response.json()) as Array<{ id: number }>; // fikk dette generert av KI. Skjønte ikke hvorfor jeg fikk feilmelding,
-        // Feilen dette var fordi TypeScript ikke vet hvilke type Users ser etter i response.json().
-        if (users && users.length > 0) {
-          setUserId(users[0].id);
-        }
-      }
-    } catch (error) {
-      console.error("Error ved henting av bruker:", error);
-    }
-  };
+    useGoals(user?.id || null);
 
   const handleAddGoal = async (e: React.FormEvent) => {
     e.preventDefault();

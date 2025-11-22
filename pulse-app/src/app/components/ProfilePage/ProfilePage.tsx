@@ -1,20 +1,10 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import { User, Activity, Badge } from "../../../interface/types";
 import { ProfileCard } from "./ProfileCard";
 import { ActivitiesCard } from "../ActivitiesCard";
 import { BadgesCard } from "./BadgesCard";
 import { GoalsCard } from "../GoalsCard";
-
-const MOCK_USER: User = {
-  id: "1",
-  name: "Simen Kingsrød",
-  email: "simen@example.com",
-  age: 29,
-  createdAt: "2022-06-01",
-  sessionsCount: 42,
-  exercisesCount: 320,
-  lastActivity: "2025-10-20",
-};
 
 const MOCK_BADGES: Badge[] = [
   {
@@ -27,11 +17,25 @@ const MOCK_BADGES: Badge[] = [
 ];
 
 export const ProfilePage = () => {
-  const [user, setUser] = useState(MOCK_USER);
+  const { user: authUser } = useAuth();
+  const [user, setUser] = useState<User | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (authUser) {
+      setUser({
+        id: authUser.id.toString(),
+        name: authUser.name,
+        email: authUser.email,
+        age: authUser.age,
+        createdAt: "2024-01-01",
+        sessionsCount: 0,
+        exercisesCount: 0,
+        lastActivity: "",
+      });
+    }
+
     // Hent økter fra databasen
     async function fetchWorkouts() {
       try {
@@ -62,6 +66,7 @@ export const ProfilePage = () => {
 
           // Oppdater stats
           setUser((prev) => {
+            if (!prev) return prev;
             return {
               ...prev,
               sessionsCount: workouts.length,
@@ -77,13 +82,15 @@ export const ProfilePage = () => {
     }
 
     fetchWorkouts();
-  }, []);
+  }, [authUser]);
 
   function handleEdit(data: Partial<User>) {
-    setUser({ ...user, ...data });
+    if (user) {
+      setUser({ ...user, ...data });
+    }
   }
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <div className="p-8 bg-gray-100 min-h-screen grid gap-6 lg:grid-cols-3">
         <div className="text-center col-span-3">Laster...</div>

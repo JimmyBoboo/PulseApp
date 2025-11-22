@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import { WorkoutTypeSelector } from "../components/WorkoutTypeSelector";
 import { ExercisePicker } from "../components/ExercisePicker";
 import { WorkoutBuilder } from "../components/WorkoutBuilder";
@@ -28,6 +29,7 @@ interface CompletedWorkout {
 }
 
 export const LogWorkout = () => {
+  const { user } = useAuth();
   const [workoutType, setWorkoutType] = useState("");
   const [selectedExercises, setSelectedExercises] = useState<
     SelectedExercise[]
@@ -91,16 +93,12 @@ export const LogWorkout = () => {
 
   const handleLogWorkout = async () => {
     try {
-      // Hent bruker først
-      const usersResponse = await fetch("/api/users");
-      const users: any = await usersResponse.json();
-
-      if (!users || users.length === 0) {
-        alert("Ingen brukere funnet!");
+      if (!user) {
+        alert("Du må være logget inn for å logge en økt");
         return;
       }
 
-      const userId = users[0].id;
+      const userId = user.id;
 
       // Lagre workout
       const workoutData = {

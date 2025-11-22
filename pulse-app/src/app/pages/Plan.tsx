@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import { WorkoutTypeSelector } from "../components/WorkoutTypeSelector";
 import { ExercisePicker } from "../components/ExercisePicker";
 import { WorkoutBuilder } from "../components/WorkoutBuilder";
@@ -17,6 +18,7 @@ interface SelectedExercise {
 }
 
 export const Plan = () => {
+  const { user } = useAuth();
   const [workoutType, setWorkoutType] = useState("");
   const [selectedExercises, setSelectedExercises] = useState<
     SelectedExercise[]
@@ -25,18 +27,19 @@ export const Plan = () => {
 
   const handleSelectType = (type: string) => {
     setWorkoutType(type);
-    setSelectedExercises([]); // Restarter valgte øvelser når type endres
+    setSelectedExercises([]);
   };
 
   const handleAddExercise = (exerciseId: number, exerciseName: string) => {
-    // Sjekker om øvelsen er lagt inn fra før av..
     if (selectedExercises.some((ex) => ex.id === exerciseId)) {
       return;
     }
 
     // Sjekk om det er cardio-øvelse
-    const isCardio = ["løping", "sykling", "roing"].some((cardio) =>
-      exerciseName.toLowerCase().includes(cardio)
+    const isCardio = ["løping", "sykling", "roing"].some(
+      (
+        cardio // Fikk denne generert av ChatGPT
+      ) => exerciseName.toLowerCase().includes(cardio)
     );
 
     setSelectedExercises([
@@ -71,24 +74,12 @@ export const Plan = () => {
 
   const handleSaveWorkout = async () => {
     try {
-      // Sjekk først om vi har en bruker
-      const usersResponse = await fetch("/api/users");
-      if (!usersResponse.ok) {
-        alert("Kunne ikke hente brukere");
-        return;
-      }
-      const users = (await usersResponse.json()) as Array<{
-        id: number;
-        name: string;
-      }>;
-      console.log("Tilgjengelige brukere:", users);
-
-      if (!users || users.length === 0) {
-        alert("Ingen brukere funnet i databasen. Kjør seed-scriptet først!");
+      if (!user) {
+        alert("Du må være innlogget for å lagre en økt");
         return;
       }
 
-      const userId = users[0].id; // Bruk første bruker
+      const userId = user.id;
 
       // Først lagre workout
       const workoutData = {
