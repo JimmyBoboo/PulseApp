@@ -29,9 +29,8 @@ export const getAllGoals = route("/api/goals", async ({ request }) => {
         .insert(goalsTable)
         .values({
           userId: body.userId,
-          goalType: body.goalType,
-          value: body.value,
-          status: body.status || "active",
+          description: body.description,
+          isCompleted: body.isCompleted || false,
           deadline: body.deadline || null,
         })
         .returning();

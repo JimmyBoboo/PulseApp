@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { User, Activity, Badge } from "./types";
+import { User, Activity, Badge } from "../../../interface/types";
 import { ProfileCard } from "./ProfileCard";
-import { ActivitiesCard } from "./ActivitiesCard";
+import { ActivitiesCard } from "../ActivitiesCard";
 import { BadgesCard } from "./BadgesCard";
+import { GoalsCard } from "../GoalsCard";
 
 const MOCK_USER: User = {
   id: "1",
@@ -89,11 +90,11 @@ export const ProfilePage = () => {
       </div>
     );
   }
-
   return (
-    <div className="p-8 bg-gray-100 min-h-screen grid gap-6 lg:grid-cols-3">
+    <div className="p-8 bg-gradient-to-br min-h-screen grid gap-6 lg:grid-cols-3">
       <ProfileCard user={user} onEdit={handleEdit} />
       <ActivitiesCard activities={activities} />
+      <GoalsCard />
       <BadgesCard badges={MOCK_BADGES} />
     </div>
   );

@@ -67,10 +67,12 @@ export const goalsTable = sqliteTable("goals", {
   userId: int("user_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
-  goalType: text("goal_type").notNull(),
-  value: real("value").notNull(),
-  status: text("status").notNull().default("active"),
+  description: text("description").notNull(),
   deadline: text("deadline"),
+  isCompleted: integer("is_completed", { mode: "boolean" })
+    .notNull()
+    .default(false),
+  completedAt: text("completed_at"),
 });
 
 // BADGES TABLE

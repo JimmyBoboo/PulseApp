@@ -11,6 +11,8 @@ interface SelectedExercise {
   sets: number;
   reps: number;
   weight: number;
+  minutes?: number;
+  distance?: number;
 }
 
 interface CompletedWorkout {
@@ -49,13 +51,20 @@ export const LogWorkout = () => {
       return;
     }
 
+    // Sjekk om det er cardio-øvelse
+    const isCardio = ["løping", "sykling", "roing"].some((cardio) =>
+      exerciseName.toLowerCase().includes(cardio)
+    );
+
     // Legger til en ny øvelsle med default verdier
     const nyOvelse = {
       id: exerciseId,
       name: exerciseName,
-      sets: 3,
-      reps: 10,
-      weight: 0,
+      sets: isCardio ? 0 : 3,
+      reps: isCardio ? 0 : 10,
+      weight: isCardio ? 0 : 0,
+      minutes: isCardio ? 30 : undefined,
+      distance: isCardio ? 5 : undefined,
     };
 
     setSelectedExercises([...selectedExercises, nyOvelse]);
@@ -63,7 +72,7 @@ export const LogWorkout = () => {
 
   const handleUpdateExercise = (
     id: number,
-    field: "sets" | "reps" | "weight",
+    field: "sets" | "reps" | "weight" | "minutes" | "distance",
     value: number
   ) => {
     const oppdatert = selectedExercises.map((ex) => {

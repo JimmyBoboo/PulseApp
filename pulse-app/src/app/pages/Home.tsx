@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { User, Activity, Badge } from "../components/ProfilePage/types";
+import { User, Activity, Badge } from "../../interface/types";
 import { ProfileCard } from "../components/ProfilePage/ProfileCard";
-import { ActivitiesCard } from "../components/ProfilePage/ActivitiesCard";
+import { ActivitiesCard } from "../components/ActivitiesCard";
 import { BadgesCard } from "../components/ProfilePage/BadgesCard";
+import { GoalsList } from "../components/GoalsList";
 
 const MOCK_USER: User = {
   id: "1",
@@ -103,7 +104,7 @@ export const Home = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="flex-grow bg-gray-100 p-8 flex justify-center">
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4 flex justify-center">
         <div className="max-w-6xl w-full grid grid-cols-[1fr_3fr_1fr] gap-6">
           <section className="flex flex-col space-y-6">
             <ProfileCard
@@ -122,6 +123,7 @@ export const Home = () => {
 
           <section className="flex flex-col space-y-6">
             <BadgesCard badges={MOCK_BADGES} />
+            <GoalsList />
             <section
               className="w-full bg-white rounded shadow p-4"
               style={{

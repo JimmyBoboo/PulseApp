@@ -106,7 +106,7 @@ export const seedData = async (env?: any) => {
       .insert(workoutsTable)
       .values({
         userId: user.id,
-        type: "Full body",
+        type: "Ferdig laget økt - Full Body",
         date: new Date().toISOString().slice(0, 10),
       })
       .returning({ id: workoutsTable.id });
@@ -143,10 +143,10 @@ export const seedData = async (env?: any) => {
     // Opprett goal
     await db.insert(goalsTable).values({
       userId: user.id,
-      goalType: "Fat Loss",
-      value: 50,
-      status: "active",
-      deadline: "2025-11-30",
+      description: "Sett målet ditt her",
+      deadline: "2025-24-12",
+      isCompleted: false,
+      completedAt: null,
     });
 
     console.log("✅ Created goal");
@@ -161,7 +161,6 @@ export const seedData = async (env?: any) => {
 
     // Hent badges for å verifisere (UTEN .all())
     const result = await db.select().from(badges);
-
     console.log("✅ Seeding complete - Created", result.length, "badges");
     console.log("🌱 Finished seeding");
 
