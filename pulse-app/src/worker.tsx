@@ -4,13 +4,13 @@ import { defineApp } from "rwsdk/worker";
 import { Document } from "@/app/Document";
 import { setCommonHeaders } from "@/app/headers";
 import { Home } from "@/app/pages/Home";
-import { About } from "@/app/pages/About";
 import { Stats } from "@/app/pages/Stats";
 import { Plan } from "@/app/pages/Plan";
 import { Profile } from "@/app/pages/Profile";
 import { Login } from "@/app/pages/Login";
 import { LogWorkout } from "@/app/pages/LogWorkout";
 import Register from "@/app/pages/Register";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 // Import API Routes
 import { getAllGoals, getGoalById } from "../api/routes/goals";
@@ -58,15 +58,36 @@ export default defineApp([
   addExerciseToWorkout,
   deleteWorkoutExercise,
 
-  // Page Routes
+  render(
+    (props) => <Document showNavbar={false}>{props.children}</Document>,
+    [route("/login", Login), route("/register", Register)]
+  ),
+
   render(Document, [
-    route("/", Home),
-    route("/about", About),
-    route("/stats", Stats),
-    route("/plan", Plan),
-    route("/profile", Profile),
-    route("/login", Login),
-    route("/log-workout", LogWorkout),
-    route("/register", Register),
+    route("/", () => (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    )),
+    route("/stats", () => (
+      <ProtectedRoute>
+        <Stats />
+      </ProtectedRoute>
+    )),
+    route("/plan", () => (
+      <ProtectedRoute>
+        <Plan />
+      </ProtectedRoute>
+    )),
+    route("/profile", () => (
+      <ProtectedRoute>
+        <Profile />
+      </ProtectedRoute>
+    )),
+    route("/log-workout", () => (
+      <ProtectedRoute>
+        <LogWorkout />
+      </ProtectedRoute>
+    )),
   ]),
 ]);

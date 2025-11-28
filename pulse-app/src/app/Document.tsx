@@ -2,9 +2,10 @@ import Navigationbar from "@/layouts/Navigationbar";
 import styles from "./styles.css?url";
 import client from "/src/client.tsx?url";
 
-export const Document: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
+export const Document: React.FC<{
+  children: React.ReactNode;
+  showNavbar?: boolean;
+}> = ({ children, showNavbar = true }) => (
   <html lang="en">
     <head>
       <meta charSet="utf-8" />
@@ -15,7 +16,7 @@ export const Document: React.FC<{ children: React.ReactNode }> = ({
     </head>
 
     <body>
-      <Navigationbar />
+      {showNavbar && <Navigationbar />}
       <div id="root">{children}</div>
     </body>
   </html>
