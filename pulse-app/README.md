@@ -115,6 +115,17 @@ Du skal nå se PulseApp med data fra seed-scriptet!
 
 ---
 
+## 🔑 Test-bruker for Sensor
+
+For å teste applikasjonen har vi opprettet en test-bruker som sensor kan bruke:
+
+**Email:** `SensorTest123@gmail.com`  
+**Passord:** `SensorTestPasswordHash`
+
+Denne brukeren opprettes automatisk når du kjører `pnpm run seed` og har tilgang til alle funksjoner i applikasjonen.
+
+---
+
 ## 📁 Prosjektstruktur
 
 ```
