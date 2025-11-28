@@ -27,14 +27,14 @@ export const seedData = async (env?: any) => {
     await db.delete(usersTable);
     console.log("✅ Old data cleared");
 
-    // Opprett ny bruker
+    // Opprett ny bruker. Test bruker
     const [user] = await db
       .insert(usersTable)
       .values({
-        name: "Jimmy",
+        name: "Sensor Test",
         age: 21,
-        email: "Jimmycool123@gmail.com",
-        passwordHash: "HoleInOne123",
+        email: "SensorTest123@gmail.com",
+        passwordHash: "SensorTestPasswordHash",
       })
       .returning({ id: usersTable.id });
 

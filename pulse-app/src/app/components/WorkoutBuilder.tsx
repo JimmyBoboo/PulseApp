@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 interface SelectedExercise {
   id: number;
   name: string;
@@ -33,8 +31,6 @@ export function WorkoutBuilder({
   workoutType,
   buttonText = "Lagre økt",
 }: WorkoutBuilderProps) {
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-
   const isCardioExercise = (exerciseName: string) => {
     //ChatGPT genererte denne funksjonen, sjekker om en øvelse er cardio
     const cardioExercises = ["løping", "sykling", "roing"];
@@ -50,18 +46,6 @@ export function WorkoutBuilder({
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-bold mb-4">Din {workoutType} økt</h2>
-
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Dato for økt
-        </label>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
 
       <div className="space-y-4">
         {selectedExercises.map((exercise) => (
@@ -79,7 +63,7 @@ export function WorkoutBuilder({
               </button>
             </div>
 
-            {isCardioExercise(exercise.name) ? ( // KI (Claude Sonnet 4.5) genererte denne delen for cardio-øvelser fra linje 82-120
+            {isCardioExercise(exercise.name) ? ( // KI (Claude Sonnet 4.5) genererte denne delen for cardio-øvelser
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs text-gray-600 mb-1">

@@ -1,23 +1,29 @@
-'use client'
-import { useEffect, useState } from 'react'
+"use client";
+import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Navigationbar() {
+  const { user, logout } = useAuth();
 
   const navLinks = [
-    { href: '/', label: 'Hjem' },
+    { href: "/", label: "Hjem" },
 
-    { href: '/stats', label: 'Statistikk' },
+    { href: "/stats", label: "Statistikk" },
 
-    { href: '/log-workout', label: 'Logg økt' },
+    { href: "/log-workout", label: "Logg økt" },
 
-    { href: '/plan', label: 'Plan' },
+    { href: "/plan", label: "Plan" },
 
-    { href: '/profile', label: 'Profil' },
-  ]
+    { href: "/profile", label: "Profil" },
+  ];
 
-  
+  const handleLogout = () => {
+    logout();
+    window.location.href = "/login";
+  };
+
   return (
-     <nav className="flex items-center justify-between bg-black px-8 py-4 text-white shadow-md">
+    <nav className="flex items-center justify-between bg-black px-8 py-4 text-white shadow-md">
       <a href="/" className="flex items-center gap-2">
         <img
           src="/images/pulse_logo.png"
@@ -37,16 +43,26 @@ export default function Navigationbar() {
             </a>
           </li>
         ))}
-  
       </ul>
-      <a
-        href="/login"
-        className="bg-[#f56e0b] hover:bg-[#f15000] px-4 py-2 transition-colors duration-200 font-semibold text-white ml-4 rounded-md flex items-center justify-center"
-      >
-        Logg inn
-      </a>
-    </nav>
-    
-  )
-}
 
+      {user ? (
+        <div className="flex items-center gap-4 ml-4">
+          <span className="text-sm text-gray-300">Hei, {user.name}!</span>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-700 px-4 py-2 transition-colors duration-200 font-semibold text-white rounded-md"
+          >
+            Logg ut
+          </button>
+        </div>
+      ) : (
+        <a
+          href="/login"
+          className="bg-[#f56e0b] hover:bg-[#f15000] px-4 py-2 transition-colors duration-200 font-semibold text-white ml-4 rounded-md flex items-center justify-center"
+        >
+          Logg inn
+        </a>
+      )}
+    </nav>
+  );
+}
