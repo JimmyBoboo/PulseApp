@@ -63,7 +63,7 @@ export function WorkoutBuilder({
               </button>
             </div>
 
-            {isCardioExercise(exercise.name) ? ( // KI (Claude Sonnet 4.5) genererte denne delen for cardio-øvelser fra linje 82-120
+            {isCardioExercise(exercise.name) ? ( // KI (Claude Sonnet 4.5) genererte denne delen for cardio-øvelser
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs text-gray-600 mb-1">

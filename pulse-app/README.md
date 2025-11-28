@@ -326,7 +326,7 @@ pnpm drizzle-kit studio
 ## Notater
 
 - Database er lokal (SQLite via Cloudflare D1)
-- Seed data inkluderer test-bruker "Jimmy" (ID: 1)
+- Seed data inkluderer test-bruker "Sensor Test" (ID: 1)
 - Alle API routes er testet og fungerer med database
 - Frontend har full CRUD funksjonalitet
 - Norske variabelnavn og kommentarer viser egen forståelse

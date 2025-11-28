@@ -30,3 +30,5 @@ export default function ProtectedRoute({
 
   return <>{children}</>;
 }
+
+//Denne er laget for å beskytte ruter som krever innlogging. Denne koden er generert av KI (Claude Sonnet 4.5)
