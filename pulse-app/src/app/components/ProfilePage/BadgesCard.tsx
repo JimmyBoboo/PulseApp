@@ -4,8 +4,8 @@ export const BadgesCard = ({ badges }: { badges: Badge[] }) => (
   <div className="bg-white rounded shadow p-4">
     <h3 className="font-bold mb-3">Dine badges</h3>
     {badges.map((b) => (
-      <div key={b.id} className="flex items-center gap-3 mb-2">
-        <div className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-200">
+      <div key={b.id} className="flex items-center gap-3 mb-2 py-3 px-4 border border-gray-300 rounded-md">
+        <div className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-400 shadow-md">
           {b.icon}
         </div>
         <div>

@@ -107,8 +107,8 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4">Mine økter</h2>
+      <div className="bg-white rounded-md shadow-md p-6 max-w-3xl w-full mx-auto">
+        <h2 className="text-2xl font-bold mb-6 text-center">Mine økter</h2>
         <p className="text-gray-500">Laster økter...</p>
       </div>
     );
@@ -116,9 +116,9 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
 
   if (workouts.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4">Mine økter</h2>
-        <p className="text-gray-500">
+      <div className="bg-white rounded-md shadow-md p-6 max-w-3xl w-full mx-auto">
+        <h2 className="text-2xl font-bold mb-6 text-center">Mine økter</h2>
+        <p className="text-gray-700 text-center mb-6">
           Ingen økter lagret ennå. Opprett din første økt!
         </p>
       </div>
@@ -126,8 +126,8 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-4">Mine økter</h2>
+    <div className="bg-white rounded-md shadow-md p-6 max-w-3xl w-full mx-auto">
+      <h2 className="text-2xl font-bold mb-6 text-center">Mine økter</h2>
 
       <div className="space-y-3">
         {workouts.map((workout) => (
@@ -135,10 +135,10 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
             {/* Økt-kort */}
             <div
               onClick={() => handleWorkoutClick(workout.id)}
-              className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+              className={`p-4 border rounded-lg cursor-pointer transition-all ${
                 selectedWorkoutId === workout.id
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-gray-200 hover:border-blue-300 hover:bg-gray-50"
+                  ? "border-[#f15000] bg-[rgba(241,80,0,0.08)] shadow-md"
+                  : "border-gray-200 hover:border-[#f15000] hover:bg-[rgba(241,80,0,0.02)]"
               }`}
             >
               <div className="flex items-center justify-between">
@@ -168,7 +168,7 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
 
             {/* Øvelser (vises når økten er valgt) */}
             {selectedWorkoutId === workout.id && (
-              <div className="ml-4 mt-2 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+              <div className="mx-auto mt-2 p-4 bg-[rgba(241,80,0,0.00)] rounded-md border border-gray-300 max-w-3xl shadow-sm">
                 {loadingExercises ? (
                   <p className="text-gray-500">Laster øvelser...</p>
                 ) : exercises.length === 0 ? (

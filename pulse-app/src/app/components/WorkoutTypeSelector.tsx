@@ -18,18 +18,19 @@ export function WorkoutTypeSelector({
   onSelectType,
 }: WorkoutTypeSelectorProps) {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-4">Velg type økt</h2>
+    <div className="bg-white rounded-md shadow-md p-6 max-w-3xl mx-auto">
+      <h2 className="text-3xl font-bold mb-7 text-center">Treningsplanlegger</h2>
+      <p className="text-gray-700 text-center mb-6">Velg type økt</p>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {workoutTypes.map((type) => (
           <button
             key={type.value}
             onClick={() => onSelectType(type.value)}
             type="button"
-            className={`p-4 rounded-lg border-2 transition-all ${
+            className={`p-2 py-3 rounded-md border transition-all w-auto text-center    ${
               selectedType === type.value
-                ? "border-blue-600 bg-blue-50 shadow-md"
-                : "border-gray-200 hover:border-blue-300"
+                ? "border-[#f15000] bg-[rgba(241,80,0,0.08)] shadow-md"
+                : "border-gray-200 hover:border-[#f15000] hover:bg-[rgba(241,80,0,0.02)]"
             }`}
           >
             <div className="font-semibold text-gray-800">{type.label}</div>

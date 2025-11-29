@@ -44,8 +44,8 @@ export function WorkoutBuilder({
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-4">Din {workoutType} økt</h2>
+    <div className="bg-white rounded-md shadow-md p-6 max-w-3xl mx-auto">
+      <h2 className="text-2xl font-bold mb-6 text-center">Din {workoutType} økt</h2>
 
       <div className="space-y-4">
         {selectedExercises.map((exercise) => (
@@ -166,7 +166,7 @@ export function WorkoutBuilder({
 
       <button
         onClick={onSaveWorkout}
-        className="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+        className="w-full bg-[#f56e0b] text-white py-2 px-4 rounded-lg transition-all font-medium mt-6 hover:bg-[#f15000] hover:shadow-lg border border-black"
       >
         {buttonText}
       </button>
