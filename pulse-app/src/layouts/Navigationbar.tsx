@@ -56,12 +56,7 @@ export default function Navigationbar() {
           </button>
         </div>
       ) : (
-        <a
-          href="/login"
-          className="bg-[#f56e0b] hover:bg-[#f15000] px-4 py-2 transition-colors duration-200 font-semibold text-white ml-4 rounded-md flex items-center justify-center"
-        >
-          Logg inn
-        </a>
+        <></>
       )}
     </nav>
   );
