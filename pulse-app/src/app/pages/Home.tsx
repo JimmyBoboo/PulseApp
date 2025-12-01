@@ -118,7 +118,7 @@ export const Home = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4 flex justify-center">
+      <main className="min-h-screen py-8 px-4 flex justify-center" style={{ backgroundColor: "#EEEEEE" }}>
         <div className="max-w-6xl w-full grid grid-cols-[1fr_3fr_1fr] gap-6">
           <section className="flex flex-col space-y-6">
             <ProfileCard

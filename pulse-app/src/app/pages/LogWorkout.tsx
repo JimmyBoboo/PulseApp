@@ -158,13 +158,13 @@ export const LogWorkout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+    <div className="min-h-screen bg-[#EEEEEE] py-8 px-4">
       <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4 text-gray-800">
+          <h1 className="text-3xl font-bold mb-7 text-center">
             Logg Treningsøkt
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-gray-700 text-center mb-6">
             Registrer økten du har fullført
           </p>
         </div>
@@ -172,7 +172,7 @@ export const LogWorkout = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             {/* Datovelger */}
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white rounded-md shadow-md p-6 max-w-3xl mx-auto">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">
                 Velg dato
               </h2>
@@ -181,7 +181,7 @@ export const LogWorkout = () => {
                 value={workoutDate}
                 onChange={(e) => setWorkoutDate(e.target.value)}
                 max={new Date().toISOString().split("T")[0]}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#f15000]"
               />
             </div>
 
@@ -214,7 +214,7 @@ export const LogWorkout = () => {
 
           {/* Liste over økter jeg har logget */}
           <div>
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white rounded-md shadow-md p-6 max-w-3xl mx-auto">
               <h2 className="text-2xl font-semibold mb-6 text-gray-800">
                 Nylig loggede økter
               </h2>

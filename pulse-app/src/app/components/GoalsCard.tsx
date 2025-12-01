@@ -44,18 +44,18 @@ export const GoalsCard = () => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold text-gray-800">Mine Mål</h2>
-        <button
-          onClick={() => setShowForm(!showForm)}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-        >
-          {showForm ? "Avbryt" : "+ Nytt Mål"}
-        </button>
-      </div>
+
+      <h2 className="text-xl font-bold text-gray-800 text-center mb-6">Mine Mål</h2>
+
+      <button
+        onClick={() => setShowForm(!showForm)}
+        className="bg-[#f56e0b] text-white py-2 px-4 rounded-lg transition-all font-medium mb-6 hover:bg-[#f15000] hover:shadow-lg mx-auto block"
+      >
+        {showForm ? "Avbryt" : "+ Nytt Mål"}
+      </button>
 
       {showForm && (
-        <form onSubmit={handleAddGoal} className="mb-4 p-4 bg-gray-50 rounded">
+        <form onSubmit={handleAddGoal} className="mx-auto mt-2 p-4 bg-[rgba(241,80,0,0.00)] rounded-md border border-gray-300 max-w-3xl shadow-sm">
           <div className="mb-3">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Beskrivelse
@@ -86,7 +86,7 @@ export const GoalsCard = () => {
           </div>
           <button
             type="submit"
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+            className="px-4 py-2 bg-[#f56e0b] text-white rounded hover:bg-[#f15000] transition block mx-auto"
           >
             Legg til
           </button>
@@ -95,7 +95,7 @@ export const GoalsCard = () => {
 
       <div className="space-y-3">
         {goals.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">
+          <p className="text-gray-700 text-center mb-6 p-4">
             Ingen mål er satt enda. Sett i gang!
           </p>
         ) : (
@@ -132,7 +132,7 @@ export const GoalsCard = () => {
                 </div>
                 <div className="flex gap-2 ml-4">
                   <button
-                    onClick={() => toggleComplete(goal.id)} // KI genererte denne button funksjonen.
+                    onClick={() => toggleComplete(goal.id)}
                     className={`px-3 py-1 text-sm rounded ${
                       goal.isCompleted
                         ? "bg-gray-300 text-gray-700 hover:bg-gray-400"

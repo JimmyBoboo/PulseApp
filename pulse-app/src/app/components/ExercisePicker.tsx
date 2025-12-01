@@ -105,18 +105,20 @@ export function ExercisePicker({
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-4">
+    <div className="bg-white rounded-md shadow-md p-6 max-w-3xl mx-auto">
+      <h2 className="text-2xl font-bold mb-6 text-center">
         Velg øvelser for {workoutType}
       </h2>
 
       {matchingExercises.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
           {matchingExercises.map((exercise) => (
             <button
               key={exercise.id}
               onClick={() => onAddExercise(exercise.id, exercise.name)}
-              className="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-left"
+              className={`py-3 px-3 rounded-md border transition-all w-full text-center 
+                border-gray-300 hover:border-[#f15000] hover:bg-[rgba(241,80,0,0.08)]
+              `}
             >
               <div className="font-semibold text-gray-800">{exercise.name}</div>
             </button>

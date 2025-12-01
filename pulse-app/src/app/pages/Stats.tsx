@@ -65,38 +65,38 @@ export const Stats = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+    <div className="min-h-screen bg-[#EEEEEE] py-8 px-4">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4 text-gray-800">
+          <h1 className="text-3xl font-bold mb-7 text-center">
             Treningsstatistikk
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-gray-700 text-center mb-6">
             Oversikt over dine treningsøkter
           </p>
         </div>
 
         {/* Statistikk-kortet */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-lg font-semibold text-gray-700 mb-2">
               Totalt antall økter
             </h3>
-            <p className="text-4xl font-bold text-blue-600">{totalOkter}</p>
+            <p className="text-3xl font-bold text-[rgba(245,110,11,0.8)]">{totalOkter}</p>
           </div>
 
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-lg font-semibold text-gray-700 mb-2">
               Mest brukte type
             </h3>
-            <p className="text-4xl font-bold text-green-600">
+            <p className="text-3xl font-bold text-[rgba(245,110,11,0.8)]">
               {mestBruktType || "-"}
             </p>
           </div>
         </div>
 
         {/* Tabellen */}
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-white rounded-lg shadow max-w-3xl mx-auto">
           <div className="p-6">
             <h2 className="text-2xl font-semibold mb-4 text-gray-800">
               Alle økter
@@ -132,7 +132,7 @@ export const Stats = () => {
                           {new Date(workout.date).toLocaleDateString("no-NO")}
                         </td>
                         <td className="py-3 px-4">
-                          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                          <span className="bg-[rgba(245,110,11,0.12)] text-[#f56e0b] px-3 py-1 rounded-full text-sm">
                             {workout.type}
                           </span>
                         </td>

@@ -138,15 +138,9 @@ export const Plan = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+    <div className="min-h-screen py-8 px-4" style={{ backgroundColor: "#EEEEEE" }}>
       <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4 text-gray-800">
-            Treningsplanlegger
-          </h1>
-          <p className="text-xl text-gray-600">
-            Velg type økt og bygg din treningsplan
-          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -179,7 +173,7 @@ export const Plan = () => {
           </div>
 
           {/* Høyre kolonne: Lagrede økter */}
-          <div>
+          <div className="flex justify-center">
             <SavedWorkouts onRefresh={refreshWorkouts} />
           </div>
         </div>
