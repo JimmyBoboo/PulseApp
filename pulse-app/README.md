@@ -58,21 +58,21 @@ Cloudflare D1 oppretter automatisk en lokal SQLite database når du kjører migr
 Kjør migrations for å opprette tabeller:
 
 ```bash
-pnpm wrangler d1 migrations apply DB --local
+pnpm run migrate:dev
 ```
 
 Eller med npm:
 
 ```bash
-npx wrangler d1 migrations apply DB --local
+npm run migrate:dev
 ```
 
 Dette oppretter en lokal `.wrangler/state/v3/d1` mappe med SQLite databasen.
 
 **Forklaring:**
 
-- `DB` er binding-navnet fra `wrangler.jsonc`
-- `--local` betyr at databasen kjører lokalt (ikke i Cloudflare)
+- Migreringene ligger i `drizzle/` mappen
+- `migrate:dev` appliserer migreringer lokalt (ikke i Cloudflare)
 - Ingen Cloudflare-konto trengs for lokal utvikling!
 
 #### 4. Seed database med test-data
@@ -89,8 +89,8 @@ npm run seed
 
 Dette vil legge inn:
 
-- Test-bruker (Jimmy)
-- Eksempeløvelser (Push Ups, Pull Ups, Squats, etc.)
+- Test-bruker: **Sensor Test** (email: `SensorTest123@gmail.com`)
+- 35+ eksempeløvelser kategorisert etter type
 - Eksempel treningsøkter
 - Eksempel mål
 - Eksempel badges
