@@ -3,7 +3,6 @@ import { db } from "../../src/lib/db";
 import { workoutExercises, exercisesTable } from "../../src/db/schema";
 import { eq } from "drizzle-orm";
 
-// GET - Hent alle øvelser for en workout
 export const getWorkoutExercises = route(
   "/api/workoutExercises/:workoutId",
   async ({ request, params }) => {
@@ -45,7 +44,6 @@ export const getWorkoutExercises = route(
   }
 );
 
-// POST - Legg til øvelse til workout
 export const addExerciseToWorkout = route(
   "/api/workoutExercises",
   async ({ request }) => {
@@ -87,7 +85,6 @@ export const addExerciseToWorkout = route(
   }
 );
 
-// DELETE - Fjern øvelse fra workout
 export const deleteWorkoutExercise = route(
   "/api/workoutExercises/:id",
   async ({ request, params }) => {

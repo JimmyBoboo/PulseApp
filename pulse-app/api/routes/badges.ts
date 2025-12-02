@@ -3,7 +3,6 @@ import { db } from "../../src/lib/db";
 import { badges } from "../../src/db/schema";
 import { eq } from "drizzle-orm";
 
-// GET /api/badges - Hent alle badges
 export const getAllBadges = route("/api/badges", async ({ request }) => {
   if (request.method === "GET") {
     try {
@@ -21,7 +20,6 @@ export const getAllBadges = route("/api/badges", async ({ request }) => {
     }
   }
 
-  // POST - Tildeler en ny badge
   if (request.method === "POST") {
     try {
       const body = (await request.json()) as any;
@@ -49,7 +47,6 @@ export const getAllBadges = route("/api/badges", async ({ request }) => {
   return new Response("Method not allowed", { status: 405 });
 });
 
-// GET - Hent en badge
 export const getBadgeById = route(
   "/api/badges/:id",
   async ({ request, params }) => {
@@ -83,7 +80,6 @@ export const getBadgeById = route(
       }
     }
 
-    // DELETE - Slett badge
     if (request.method === "DELETE") {
       try {
         const deleted = await db

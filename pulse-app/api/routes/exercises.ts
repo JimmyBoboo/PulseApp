@@ -3,7 +3,6 @@ import { db } from "../../src/lib/db";
 import { exercisesTable } from "../../src/db/schema";
 import { eq } from "drizzle-orm";
 
-// GET /api/exercises - Hent alle exercises
 export const getAllExercises = route("/api/exercises", async ({ request }) => {
   if (request.method === "GET") {
     try {
@@ -24,7 +23,6 @@ export const getAllExercises = route("/api/exercises", async ({ request }) => {
     }
   }
 
-  // POST - Opprett ny exercise
   if (request.method === "POST") {
     try {
       const body = (await request.json()) as any;
@@ -50,7 +48,6 @@ export const getAllExercises = route("/api/exercises", async ({ request }) => {
   return new Response("Method not allowed", { status: 405 });
 });
 
-// GET - Hent én exercise
 export const getExerciseById = route(
   "/api/exercises/:id",
   async ({ request, params }) => {
@@ -85,7 +82,6 @@ export const getExerciseById = route(
       }
     }
 
-    // PUT - Oppdater exercise
     if (request.method === "PUT") {
       try {
         const body = (await request.json()) as any;
@@ -115,7 +111,6 @@ export const getExerciseById = route(
       }
     }
 
-    // DELETE - Slett exercise
     if (request.method === "DELETE") {
       try {
         const deleted = await db

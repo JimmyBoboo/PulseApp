@@ -3,9 +3,7 @@ import { db } from "../../src/lib/db";
 import { usersTable } from "../../src/db/schema";
 import { eq } from "drizzle-orm";
 
-// GET /api/users - Hent alle users
 export const getAllUsers = route("/api/users", async ({ request }) => {
-  // GET - Hent alle users
   if (request.method === "GET") {
     try {
       const allUsers = await db.select().from(usersTable);
@@ -22,7 +20,6 @@ export const getAllUsers = route("/api/users", async ({ request }) => {
     }
   }
 
-  // POST - Oppretter ny user
   if (request.method === "POST") {
     try {
       const body = (await request.json()) as any;
@@ -52,7 +49,6 @@ export const getAllUsers = route("/api/users", async ({ request }) => {
   return new Response("Method not allowed", { status: 405 });
 });
 
-// GET - Hent én user by Id
 export const getUserById = route(
   "/api/users/:id",
   async ({ request, params }) => {
@@ -83,7 +79,6 @@ export const getUserById = route(
       }
     }
 
-    // PUT - Oppdater user
     if (request.method === "PUT") {
       try {
         const body = (await request.json()) as any;
@@ -113,7 +108,6 @@ export const getUserById = route(
       }
     }
 
-    // DELETE - Slett user
     if (request.method === "DELETE") {
       try {
         const deleted = await db

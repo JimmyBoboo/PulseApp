@@ -53,12 +53,10 @@ export const LogWorkout = () => {
       return;
     }
 
-    // Sjekk om det er cardio-øvelse
     const isCardio = ["løping", "sykling", "roing"].some((cardio) =>
       exerciseName.toLowerCase().includes(cardio)
     );
 
-    // Legger til en ny øvelsle med default verdier
     const nyOvelse = {
       id: exerciseId,
       name: exerciseName,
@@ -100,7 +98,6 @@ export const LogWorkout = () => {
 
       const userId = user.id;
 
-      // Lagre workout
       const workoutData = {
         userId: userId,
         type: workoutType,
@@ -121,7 +118,6 @@ export const LogWorkout = () => {
 
       const workout: any = await workoutResponse.json();
 
-      // Lagre alle øvelsene
       for (let i = 0; i < selectedExercises.length; i++) {
         const exercise = selectedExercises[i];
         await fetch("/api/workoutExercises", {
@@ -137,7 +133,6 @@ export const LogWorkout = () => {
         });
       }
 
-      // Legg til i listen
       const nyOkt = {
         id: workout.id,
         type: workoutType,
@@ -146,7 +141,6 @@ export const LogWorkout = () => {
       };
       setCompletedWorkouts([nyOkt, ...completedWorkouts]);
 
-      // Reset alt
       setWorkoutType("");
       setSelectedExercises([]);
       setWorkoutDate(new Date().toISOString().split("T")[0]);

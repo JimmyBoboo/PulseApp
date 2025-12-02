@@ -3,7 +3,6 @@ import { db } from "../../src/lib/db";
 import { workoutsTable, workoutExercises } from "../../src/db/schema";
 import { eq } from "drizzle-orm";
 
-// GET - Hent alle workouts
 export const getAllWorkouts = route("/api/workouts", async ({ request }) => {
   if (request.method === "GET") {
     try {
@@ -12,19 +11,16 @@ export const getAllWorkouts = route("/api/workouts", async ({ request }) => {
 
       let allWorkouts;
       if (isCompleted === "true") {
-        // Hent bare fullførte økter
         allWorkouts = await db
           .select()
           .from(workoutsTable)
           .where(eq(workoutsTable.isCompleted, true));
       } else if (isCompleted === "false") {
-        // Hent bare planlagte økter
         allWorkouts = await db
           .select()
           .from(workoutsTable)
           .where(eq(workoutsTable.isCompleted, false));
       } else {
-        // Hent alle økter
         allWorkouts = await db.select().from(workoutsTable);
       }
 
@@ -44,7 +40,6 @@ export const getAllWorkouts = route("/api/workouts", async ({ request }) => {
     }
   }
 
-  // POST - Opprett ny workout
   if (request.method === "POST") {
     try {
       const body = (await request.json()) as any;
@@ -82,7 +77,6 @@ export const getAllWorkouts = route("/api/workouts", async ({ request }) => {
   return new Response("Method not allowed", { status: 405 });
 });
 
-// GET Hent én workout by Id
 export const getWorkoutById = route(
   "/api/workouts/:id",
   async ({ request, params }) => {
@@ -116,7 +110,6 @@ export const getWorkoutById = route(
       }
     }
 
-    // DELETE - Sletter workout
     if (request.method === "DELETE") {
       try {
         const deleted = await db

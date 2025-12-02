@@ -12,7 +12,7 @@ interface ExercisePickerProps {
   onAddExercise: (exerciseId: number, exerciseName: string) => void;
 }
 
-// Øvelser kategorisert etter type - matcher øvelser fra seed.ts
+// Øvelser kategorisert etter type - matcher øvelser fra seed.ts // Co-pilot genererte øvelsene.
 const exercisesByType: Record<string, string[]> = {
   Strength: [
     "Benkpress",
@@ -93,7 +93,6 @@ export function ExercisePicker({
 
   const suggestedExercises = exercisesByType[workoutType] || [];
 
-  // Finn øvelser som matcher foreslåtte øvelser
   const matchingExercises = exercises.filter((ex) =>
     suggestedExercises.some((suggested) =>
       ex.name.toLowerCase().includes(suggested.toLowerCase())
@@ -117,7 +116,7 @@ export function ExercisePicker({
               key={exercise.id}
               onClick={() => onAddExercise(exercise.id, exercise.name)}
               className={`py-3 px-3 rounded-md border transition-all w-full text-center 
-                border-gray-300 hover:border-[#f15000] hover:bg-[rgba(241,80,0,0.08)]
+                border-gray-300 hover:border-[#f15000] hover:bg-[rgba(241,80,0,0.08)] 
               `}
             >
               <div className="font-semibold text-gray-800">{exercise.name}</div>

@@ -3,7 +3,6 @@ import { db } from "../../src/lib/db";
 import { goalsTable } from "../../src/db/schema";
 import { eq } from "drizzle-orm";
 
-// GET /api/goals - Hent alle goals
 export const getAllGoals = route("/api/goals", async ({ request }) => {
   if (request.method === "GET") {
     try {
@@ -21,7 +20,6 @@ export const getAllGoals = route("/api/goals", async ({ request }) => {
     }
   }
 
-  // POST /api/goals - Opprett ny goal
   if (request.method === "POST") {
     try {
       const body = (await request.json()) as any;
@@ -51,7 +49,6 @@ export const getAllGoals = route("/api/goals", async ({ request }) => {
   return new Response("Method not allowed", { status: 405 });
 });
 
-// GET - Hent én goal by Id
 export const getGoalById = route(
   "/api/goals/:id",
   async ({ request, params }) => {
@@ -82,7 +79,6 @@ export const getGoalById = route(
       }
     }
 
-    // PUT - Oppdater goal
     if (request.method === "PUT") {
       try {
         const body = (await request.json()) as any;
@@ -112,7 +108,6 @@ export const getGoalById = route(
       }
     }
 
-    // DELETE - Slett goal
     if (request.method === "DELETE") {
       try {
         const deleted = await db

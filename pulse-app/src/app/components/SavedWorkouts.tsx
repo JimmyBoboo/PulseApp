@@ -32,7 +32,6 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
   const [loading, setLoading] = useState(true);
   const [loadingExercises, setLoadingExercises] = useState(false);
 
-  // Hent alle økter
   useEffect(() => {
     fetchWorkouts();
   }, [onRefresh]);
@@ -52,10 +51,8 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
     }
   };
 
-  // Hent øvelser for valgt økt
   const handleWorkoutClick = async (workoutId: number) => {
     if (selectedWorkoutId === workoutId) {
-      // Hvis samme økt klikkes, lukk den
       setSelectedWorkoutId(null);
       setExercises([]);
       return;
@@ -77,12 +74,11 @@ export function SavedWorkouts({ onRefresh }: SavedWorkoutsProps) {
     }
   };
 
-  // Slett økt
   const handleDeleteWorkout = async (
     workoutId: number,
     e: React.MouseEvent
   ) => {
-    e.stopPropagation(); // Ikke trigger onClick på kortet
+    e.stopPropagation();
 
     if (!confirm("Er du sikker på at du vil slette denne økten?")) {
       return;

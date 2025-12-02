@@ -96,12 +96,10 @@ export const seedData = async (env?: any) => {
 
     console.log(`✅ Created ${createdExercises.length} exercises`);
 
-    // Finn spesifikke øvelser for workout-eksempel
     const pushUps = createdExercises.find((e) => e.name === "Push Ups")!;
     const pullUps = createdExercises.find((e) => e.name === "Pull Ups")!;
     const squats = createdExercises.find((e) => e.name === "Squats")!;
 
-    // Opprett workout
     const [workout] = await db
       .insert(workoutsTable)
       .values({
@@ -113,7 +111,6 @@ export const seedData = async (env?: any) => {
 
     console.log("✅ Created workout:", workout.id);
 
-    // Koble exercises til workout
     await db.insert(workoutExercises).values([
       {
         workoutId: workout.id,
@@ -140,7 +137,6 @@ export const seedData = async (env?: any) => {
 
     console.log("✅ Created workout exercises");
 
-    // Opprett goal
     await db.insert(goalsTable).values({
       userId: user.id,
       description: "Sett målet ditt her",
@@ -151,7 +147,6 @@ export const seedData = async (env?: any) => {
 
     console.log("✅ Created goal");
 
-    // Opprett badge
     await db.insert(badges).values({
       userId: user.id,
       name: "First Workout Completed",
@@ -159,7 +154,6 @@ export const seedData = async (env?: any) => {
 
     console.log("✅ Created badge");
 
-    // Hent badges for å verifisere (UTEN .all())
     const result = await db.select().from(badges);
     console.log("✅ Seeding complete - Created", result.length, "badges");
     console.log("🌱 Finished seeding");

@@ -7,14 +7,12 @@ export const Stats = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Henter alle øktene
     async function fetchWorkouts() {
       try {
         const response = await fetch("/api/workouts?isCompleted=true");
         if (response.ok) {
           const data: any = await response.json();
 
-          // Sorter etter dato (nyeste først)
           const sortert = data.sort((a: any, b: any) => {
             const dateA = new Date(a.date).getTime();
             const dateB = new Date(b.date).getTime();
@@ -32,10 +30,8 @@ export const Stats = () => {
     fetchWorkouts();
   }, []);
 
-  // Enkel statistikk
   const totalOkter = workouts.length;
 
-  // Finne ut mest brukte type økt
   const typeTeller: any = {};
   workouts.forEach((w) => {
     if (typeTeller[w.type]) {
@@ -53,7 +49,7 @@ export const Stats = () => {
       mestBruktType = type;
     }
   }
-  // ------------------- UI -------------------
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100 py-8 px-4">
@@ -82,7 +78,9 @@ export const Stats = () => {
             <h3 className="text-lg font-semibold text-gray-700 mb-2">
               Totalt antall økter
             </h3>
-            <p className="text-3xl font-bold text-[rgba(245,110,11,0.8)]">{totalOkter}</p>
+            <p className="text-3xl font-bold text-[rgba(245,110,11,0.8)]">
+              {totalOkter}
+            </p>
           </div>
 
           <div className="bg-white rounded-lg shadow p-6">
