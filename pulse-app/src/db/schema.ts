@@ -9,9 +9,6 @@ export const usersTable = sqliteTable("users", {
   age: integer("age").notNull(),
   email: text("email").notNull().unique(),
   passwordHash: text("password_hash").notNull(),
-  // createdAt: text("created_at")
-  //   .default(sql`CURRENT_TIMESTAMP`)
-  //   .notNull(),
 });
 
 // EXERCISES TABLE
@@ -20,9 +17,6 @@ export const exercisesTable = sqliteTable("exercises", {
     autoIncrement: true,
   }),
   name: text("name").notNull().unique(),
-  // createdAt: int("created_at")
-  //   .default(sql`CURRENT_TIMESTAMP`)
-  //   .notNull(),
 });
 
 // WORKOUTS TABLE
@@ -38,9 +32,6 @@ export const workoutsTable = sqliteTable("workouts", {
   isCompleted: integer("is_completed", { mode: "boolean" })
     .notNull()
     .default(false),
-  // createdAt: int("created_at")
-  //   .default(sql`CURRENT_TIMESTAMP`)
-  //   .notNull(),
 });
 
 // WORKOUT_EXERCISES TABLE
@@ -84,9 +75,6 @@ export const badges = sqliteTable("badges", {
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
-  // awardedAt: text("awarded_at")
-  //   .default(sql`CURRENT_TIMESTAMP`)
-  //   .notNull(),
 });
 
 export const schema = {
@@ -97,3 +85,5 @@ export const schema = {
   goalsTable,
   badges,
 };
+
+// Fikk beskjed av veileder om å få KI til oversette Vårt gamle PostgreSQL schema til Drizzle ORM SQLite schema.
