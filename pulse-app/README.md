@@ -95,6 +95,10 @@ Dette vil legge inn:
 - Eksempel mål
 - Eksempel badges
 
+**⚠️ Første gang du kjører seed:**
+
+Første gang du kjører `pnpm run seed` kan du få Vite-warnings om dependency pre-bundling og "failed to scan for dependencies". Dette er normalt og kan ignoreres - seedingen fullføres og data legges inn i databasen. Ved andre kjøring forsvinner disse warningsene.
+
 #### 5. Start development server
 
 ```bash
@@ -368,3 +372,5 @@ pnpm drizzle-kit studio
 - AI er brukt som læringverktøy, ikke kopieringsverktøy
 
 ---
+
+// Ved hjelp av Co-pilot, genererte den en oversiktlig README.md fil
