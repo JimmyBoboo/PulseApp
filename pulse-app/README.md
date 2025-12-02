@@ -132,33 +132,68 @@ Denne brukeren opprettes automatisk når du kjører `pnpm run seed` og har tilga
 pulse-app/
 ├── api/                          # Backend API routes
 │   └── routes/
-│       ├── users.ts              # User API (GET, POST, DELETE)
-│       ├── workouts.ts           # Workouts API
+│       ├── badges.ts             # Badges API (full CRUD)
 │       ├── exercises.ts          # Exercises API (full CRUD)
-│       ├── goals.ts              # Goals API
-│       ├── badges.ts             # Badges API
-│       └── workoutExercises.ts   # Workout-Exercise relation API
+│       ├── goals.ts              # Goals API (full CRUD)
+│       ├── users.ts              # Users API (GET, POST, PUT, DELETE)
+│       ├── workout.ts            # Workouts API (med ?isCompleted filtering)
+│       └── workoutExercises.ts   # Junction table API (workout-exercise relations)
+├── drizzle/                      # Database migrations (auto-generated)
+│   ├── 0000_crazy_vector.sql
+│   ├── 0001_overconfident_lester.sql
+│   ├── 0002_silly_killraven.sql
+│   ├── 0003_lucky_makkari.sql
+│   └── meta/                     # Migration metadata
+├── scripts/
+│   └── seed.ts                   # Database seed script (35+ øvelser)
 ├── src/
 │   ├── app/                      # Frontend React app
 │   │   ├── pages/                # Pages/routes
-│   │   │   ├── Home.tsx
-│   │   │   ├── LogWorkout.tsx
-│   │   │   ├── Stats.tsx
-│   │   │   └── Profile.tsx
-│   │   └── components/           # Reusable components
-│   │       ├── WorkoutTypeSelector.tsx
+│   │   │   ├── Home.tsx          # Dashboard
+│   │   │   ├── Login.tsx         # Innlogging
+│   │   │   ├── Register.tsx      # Registrering
+│   │   │   ├── LogWorkout.tsx    # Logg fullførte økter
+│   │   │   ├── Plan.tsx          # Planlegg økter
+│   │   │   ├── Stats.tsx         # Statistikk
+│   │   │   └── Profile.tsx       # Brukerprofil
+│   │   └── components/           # Gjenbrukbare komponenter
+│   │       ├── ActivitiesCard.tsx
 │   │       ├── ExercisePicker.tsx
-│   │       └── WorkoutBuilder.tsx
+│   │       ├── GoalsCard.tsx
+│   │       ├── GoalsList.tsx
+│   │       ├── ProtectedRoute.tsx
+│   │       ├── SavedWorkouts.tsx
+│   │       ├── TotalWorkouts.tsx
+│   │       ├── WorkoutBuilder.tsx
+│   │       ├── WorkoutTypeSelector.tsx
+│   │       └── ProfilePage/      # Profilside-komponenter
+│   │           ├── BadgesCard.tsx
+│   │           ├── ProfileAvatar.tsx
+│   │           ├── ProfileCard.tsx
+│   │           └── ProfilePage.tsx
+│   ├── context/                  # React Context
+│   │   └── AuthContext.tsx       # Auth server actions
 │   ├── db/                       # Database
-│   │   └── schema.ts             # Drizzle ORM schema
-│   └── lib/
-│       └── db.ts                 # Database connection
-├── scripts/
-│   └── seed.ts                   # Database seed script
-├── drizzle/                      # Database migrations
-├── wrangler.toml                 # Cloudflare Workers config
-├── .env                          # Environment variables (inkludert for testing)
-└── package.json
+│   │   └── schema.ts             # Drizzle ORM schema (6 tables)
+│   ├── hooks/                    # Custom React hooks
+│   │   ├── useAuth.ts            # Auth state management
+│   │   └── useGoals.ts           # Goals state management
+│   ├── interface/                # TypeScript interfaces
+│   │   ├── goals.ts              # Goal types
+│   │   └── types.ts              # User, Activity, Badge types
+│   ├── layouts/                  # Layout components
+│   │   └── Navigationbar.tsx     # Main navigation
+│   ├── lib/
+│   │   └── db.ts                 # Database connection
+│   └── services/                 # Service layer
+│       ├── authService.ts        # Authentication logic
+│       └── goalsService.ts       # Goals API client
+├── drizzle.config.ts             # Drizzle configuration (D1)
+├── package.json                  # Dependencies & scripts
+├── tailwind.config.js            # Tailwind CSS config
+├── tsconfig.json                 # TypeScript config
+├── vite.config.mts               # Vite build config
+└── wrangler.jsonc                # Cloudflare Workers config
 ```
 
 ---
