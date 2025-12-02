@@ -6,6 +6,7 @@ import { ProfileCard } from "../components/ProfilePage/ProfileCard";
 import { ActivitiesCard } from "../components/ActivitiesCard";
 import { BadgesCard } from "../components/ProfilePage/BadgesCard";
 import { GoalsList } from "../components/GoalsList";
+import TotalWorkouts from "../components/TotalWorkouts";
 
 const MOCK_BADGES: Badge[] = [
   {
@@ -58,14 +59,12 @@ export const Home = () => {
       });
     }
 
-    // Hent økter fra databasen
     async function fetchWorkouts() {
       try {
         const response = await fetch("/api/workouts?isCompleted=true");
         if (response.ok) {
           const workouts: any = await response.json();
 
-          // Lag activities fra workouts
           const allActivities = workouts.map((workout: any) => {
             return {
               id: workout.id.toString(),
@@ -75,18 +74,15 @@ export const Home = () => {
             };
           });
 
-          // Sorter etter dato (nyeste først)
           allActivities.sort((a: any, b: any) => {
             const dateA = new Date(a.date).getTime();
             const dateB = new Date(b.date).getTime();
             return dateB - dateA;
           });
 
-          // Tar bare de 5 første
           const activities5 = allActivities.slice(0, 5);
           setActivities(activities5);
 
-          // Oppdater bruker stats
           setUser((prev) => {
             if (!prev) return prev;
             return {
@@ -118,17 +114,17 @@ export const Home = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="min-h-screen py-8 px-4 flex justify-center" style={{ backgroundColor: "#EEEEEE" }}>
+      <main
+        className="min-h-screen py-8 px-4 flex justify-center"
+        style={{ backgroundColor: "#EEEEEE" }}
+      >
         <div className="max-w-6xl w-full grid grid-cols-[1fr_3fr_1fr] gap-6">
           <section className="flex flex-col space-y-6">
             <ProfileCard
               user={user}
               onEdit={(data) => setUser({ ...user, ...data })}
             />
-            <section className="w-full max-w-sm bg-white rounded shadow p-4 text-center">
-              <h3 className="font-bold mb-2">Statistikk</h3>
-              <p className="text-gray-500 text-sm">Kommer snart…</p>
-            </section>
+            <TotalWorkouts workouts={activities} />
           </section>
 
           <section className="flex flex-col space-y-6">
